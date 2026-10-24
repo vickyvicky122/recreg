@@ -1,26 +1,16 @@
 :root {
-  --bg: #ffffff;
-  --panel: #f6f7f9;
-  --text: #1a1c22;
-  --muted: #5d6270;
-  --border: #e2e4ea;
-  --accent: #5b5fc7;
-  --accent-text: #ffffff;
-  --ok: #1a7f4f;
+  --bg: #fff5f8;
+  --panel: #ffffff;
+  --text: #3d3236;
+  --muted: #7a6a70;
+  --border: #f0cbd8;
+  --accent: #f4b3c9;
+  --accent-edge: #e49cb5;
+  --accent-text: #3d3236;
+  --soft: #fdeef4;
+  --ok: #6a9a85;
   --warn: #b45309;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #121318;
-    --panel: #1b1d24;
-    --text: #e8eaed;
-    --muted: #9aa0ae;
-    --border: #2a2d36;
-    --accent: #8b8ff0;
-    --accent-text: #15161c;
-    --ok: #4ade80;
-    --warn: #fbbf24;
-  }
+  --serif: Georgia, "Times New Roman", serif;
 }
 
 * { box-sizing: border-box; }
@@ -30,15 +20,17 @@ body {
   color: var(--text);
   font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
 }
-h1 { font-size: 18px; margin: 0; }
-h2 { font-size: 15px; margin: 0 0 2px; }
+h1 { font: 700 22px/1.1 var(--serif); margin: 0; }
+h2 { font: 700 18px/1.2 var(--serif); margin: 0 0 2px; }
 button { font: inherit; }
 
 .popup { width: 320px; padding: 14px; }
-.popup-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+.popup-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.popup-head img { width: 36px; height: 36px; flex: none; }
+.popup-head h1 { margin-bottom: 2px; }
 .tagline { color: var(--muted); font-size: 12px; }
 
-.status { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; background: var(--panel); margin-bottom: 10px; font-size: 13px; }
+.status { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 14px; background: var(--soft); border: 1px solid var(--border); margin-bottom: 10px; font-size: 13px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--muted); }
 .status-ok .dot { background: var(--ok); }
 .status-warn .dot { background: var(--warn); }
@@ -46,10 +38,10 @@ button { font: inherit; }
 
 .btn {
   border: 1px solid var(--border); background: var(--panel); color: var(--text);
-  border-radius: 8px; padding: 7px 12px; cursor: pointer;
+  border-radius: 12px; padding: 8px 14px; cursor: pointer; font-weight: 600;
 }
-.btn:hover { border-color: var(--accent); }
-.btn-primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.btn:hover { border-color: var(--accent-edge); }
+.btn-primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent-edge); }
 .btn-ghost { background: transparent; }
 .btn-small { padding: 3px 9px; font-size: 12px; }
 
@@ -57,7 +49,7 @@ button { font: inherit; }
 .quick-add input { flex: 1; }
 input[type="text"], select {
   background: var(--panel); color: var(--text); border: 1px solid var(--border);
-  border-radius: 8px; padding: 7px 10px; font: inherit;
+  border-radius: 12px; padding: 8px 12px; font: inherit;
 }
 input[type="text"]:focus-visible, select:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
@@ -68,10 +60,12 @@ input[type="text"]:focus-visible, select:focus-visible, .btn:focus-visible { out
 .options #app { max-width: 720px; margin: 0 auto; padding: 24px 16px 60px; }
 .page-head { margin-bottom: 18px; }
 .card {
-  background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
-  padding: 16px 18px; margin-bottom: 16px;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 24px;
+  padding: 20px 24px; margin-bottom: 16px;
 }
 .hint { color: var(--muted); font-size: 13px; margin: 4px 0 12px; }
+input[type="checkbox"], input[type="radio"] { accent-color: #d9739a; }
+.page-head h1 { font-size: 30px; margin-bottom: 6px; }
 
 .site-row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .site-row:last-child { border-bottom: 0; }
@@ -84,7 +78,7 @@ input[type="text"]:focus-visible, select:focus-visible, .btn:focus-visible { out
   border-radius: 999px; padding: 5px 12px; cursor: pointer; font-size: 13px;
 }
 .chip:hover { border-color: var(--accent); }
-.chip-on { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.chip-on { background: var(--soft); color: var(--accent-text); border-color: var(--accent-edge); font-weight: 600; }
 
 .add-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
 .add-row input { flex: 1; min-width: 180px; }
@@ -101,14 +95,19 @@ input[type="text"]:focus-visible, select:focus-visible, .btn:focus-visible { out
 .radio small { color: var(--muted); }
 
 .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-.preview-card { position: relative; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.preview-thumb { height: 72px; background: linear-gradient(135deg, var(--border), var(--panel)); }
+.preview-card { position: relative; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.preview-thumb { height: 72px; margin: 8px 8px 0; border-radius: 10px; background: #f7c1d4; }
+.preview-card:nth-child(6n+2) .preview-thumb { background: #fbd9c9; }
+.preview-card:nth-child(6n+3) .preview-thumb { background: #e9f1d9; }
+.preview-card:nth-child(6n+4) .preview-thumb { background: #dcebe6; }
+.preview-card:nth-child(6n+5) .preview-thumb { background: #fff1d6; }
+.preview-card:nth-child(6n) .preview-thumb { background: #f4b3c9; }
 .preview-title { font-size: 12.5px; font-weight: 600; padding: 8px 10px 2px; }
 .preview-meta { font-size: 11px; color: var(--muted); padding: 0 10px 10px; }
 .preview-cover {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  background: var(--panel); color: var(--muted); font-size: 12.5px; font-weight: 600;
-  border-radius: 10px;
+  background: var(--soft) radial-gradient(#f0b6c9 1.2px, transparent 1.4px) 0 0 / 9px 9px; color: var(--text);
+  font-size: 12.5px; font-weight: 700; border-radius: 14px;
 }
 
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

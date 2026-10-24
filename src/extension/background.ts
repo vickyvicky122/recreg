@@ -71,7 +71,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       if (tabId !== undefined && typeof count === "number" && Number.isFinite(count)) {
         const text = count > 0 ? String(Math.min(Math.floor(count), 999)) : "";
         void chrome.action.setBadgeText({ tabId, text });
-        void chrome.action.setBadgeBackgroundColor({ tabId, color: "#5b5fc7" });
+        void chrome.action.setBadgeBackgroundColor({ tabId, color: "#d9739a" });
       }
       return;
     }

@@ -44,8 +44,11 @@ async function render(): Promise<void> {
   clear(app);
 
   app.append(el("header", { class: "popup-head" }, [
-    el("h1", {}, ["recreg"]),
-    el("span", { class: "tagline" }, ["your feed, your rules"]),
+    el("img", { src: "icons/icon48.png", alt: "", width: "36", height: "36" }),
+    el("div", {}, [
+      el("h1", {}, ["recreg"]),
+      el("span", { class: "tagline" }, ["your feed, your rules"]),
+    ]),
   ]));
 
   if (status) {

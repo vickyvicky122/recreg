@@ -51,14 +51,14 @@ function main(site: SiteAdapter): void {
       `[${ATTR_COVERED}] { position: relative !important; }`,
       `.recreg-cover { position: absolute; inset: 0; z-index: 2147483000; display: flex;`,
       `  flex-direction: column; align-items: center; justify-content: center; gap: 10px;`,
-      `  background: #1b1d23; color: #e8eaed; border-radius: 10px;`,
+      `  background: #fdeef4 radial-gradient(#f0b6c9 1.2px, transparent 1.4px) 0 0 / 9px 9px; color: #3d3236; border-radius: 14px;`,
       `  font: 500 13px/1.4 system-ui, -apple-system, sans-serif; text-align: center; padding: 8px; }`,
-      `.recreg-cover button { cursor: pointer; border: 1px solid #4a4d57; border-radius: 999px;`,
-      `  background: transparent; color: #aeb3c0; font: 500 12px system-ui, sans-serif; padding: 4px 14px; }`,
-      `.recreg-cover button:hover { background: #2a2d36; color: #e8eaed; }`,
-      `.recreg-cover .recreg-why { border: 0; background: transparent; color: #7d8290;`,
+      `.recreg-cover button { cursor: pointer; border: 1px solid #e49cb5; border-radius: 999px;`,
+      `  background: #fff; color: #3d3236; font: 600 12px system-ui, sans-serif; padding: 4px 14px; }`,
+      `.recreg-cover button:hover { background: #f4b3c9; color: #3d3236; }`,
+      `.recreg-cover .recreg-why { border: 0; background: transparent; color: #7a6a70;`,
       `  font: 400 11px system-ui, sans-serif; padding: 0; }`,
-      `.recreg-cover button.recreg-why:hover { background: transparent; color: #aeb3c0; text-decoration: underline; }`,
+      `.recreg-cover button.recreg-why:hover { background: transparent; color: #3d3236; text-decoration: underline; }`,
     ].join("\n");
   }
 

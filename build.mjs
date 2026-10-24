@@ -66,33 +66,58 @@ function encodePng(size, pixelAt) {
 // Icon: dark rounded tile with three "feed card" bars; the middle one is
 // shorter and accent-colored (the filtered card).
 function iconPixel(size) {
-  const BG = [27, 29, 35];
-  const BAR = [232, 234, 237];
-  const ACCENT = [139, 143, 240];
-  const radius = size * 0.22;
+  // Rasterises frontend/favicon.svg (pink tile + "R") with no dependencies:
+  // 64-unit design space, 4x4 supersampling for anti-aliasing.
+  const TILE = [247, 193, 212];
+  const INK = [107, 91, 97];
+  const k = 0.7;
+  const at = (x, y) => [9.6 + k * x, 9.6 + k * y];
+  const arc = [];
+  for (let i = 0; i <= 16; i++) {
+    const t = -Math.PI / 2 + (Math.PI * i) / 16;
+    arc.push(at(35 + 10.5 * Math.cos(t), 24.5 + 10.5 * Math.sin(t)));
+  }
+  const strokes = [
+    [at(22, 50), at(22, 14), at(35, 14), ...arc, at(35, 35), at(22, 35)],
+    [at(37, 41), at(45, 50)],
+  ];
+  const half = (4.2 * k) / 2;
 
-  const inRounded = (x, y, x0, y0, x1, y1, r) => {
-    if (x < x0 || x > x1 || y < y0 || y > y1) return false;
-    const cx = Math.max(x0 + r, Math.min(x, x1 - r));
-    const cy = Math.max(y0 + r, Math.min(y, y1 - r));
-    return (x - cx) ** 2 + (y - cy) ** 2 <= r * r || (x >= x0 + r && x <= x1 - r) || (y >= y0 + r && y <= y1 - r);
+  const distToSeg = (px, py, [ax, ay], [bx, by]) => {
+    const dx = bx - ax, dy = by - ay;
+    const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)));
+    return Math.hypot(px - (ax + t * dx), py - (ay + t * dy));
+  };
+  const inInk = (px, py) =>
+    strokes.some((pts) => pts.some((p, i) => i > 0 && distToSeg(px, py, pts[i - 1], p) <= half));
+  const inTile = (px, py) => {
+    const x0 = 4, y0 = 4, x1 = 60, y1 = 60, r = 16;
+    if (px < x0 || px > x1 || py < y0 || py > y1) return false;
+    const cx = Math.max(x0 + r, Math.min(px, x1 - r));
+    const cy = Math.max(y0 + r, Math.min(py, y1 - r));
+    return (px - cx) ** 2 + (py - cy) ** 2 <= r * r;
   };
 
-  const bars = [
-    { y0: 0.2, y1: 0.33, x0: 0.2, x1: 0.8, color: BAR },
-    { y0: 0.44, y1: 0.57, x0: 0.2, x1: 0.58, color: ACCENT },
-    { y0: 0.68, y1: 0.81, x0: 0.2, x1: 0.8, color: BAR },
-  ];
-
+  const N = 4;
   return (x, y) => {
-    if (!inRounded(x, y, 0, 0, size - 1, size - 1, radius)) return [0, 0, 0, 0];
-    for (const b of bars) {
-      const r = (size * (b.y1 - b.y0)) / 2;
-      if (inRounded(x, y, size * b.x0, size * b.y0, size * b.x1, size * b.y1, r)) {
-        return [...b.color, 255];
+    let cov = 0, ink = 0;
+    for (let sy = 0; sy < N; sy++) {
+      for (let sx = 0; sx < N; sx++) {
+        const px = ((x + (sx + 0.5) / N) / size) * 64;
+        const py = ((y + (sy + 0.5) / N) / size) * 64;
+        if (!inTile(px, py)) continue;
+        cov++;
+        if (inInk(px, py)) ink++;
       }
     }
-    return [...BG, 255];
+    if (cov === 0) return [0, 0, 0, 0];
+    const m = ink / cov;
+    return [
+      Math.round(TILE[0] + (INK[0] - TILE[0]) * m),
+      Math.round(TILE[1] + (INK[1] - TILE[1]) * m),
+      Math.round(TILE[2] + (INK[2] - TILE[2]) * m),
+      Math.round((255 * cov) / (N * N)),
+    ];
   };
 }
 
