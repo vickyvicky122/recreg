@@ -44,6 +44,8 @@ button { font: inherit; }
 .btn-primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent-edge); }
 .btn-ghost { background: transparent; }
 .btn-small { padding: 3px 9px; font-size: 12px; }
+.done-row { display: flex; align-items: center; justify-content: flex-end; gap: 14px; margin: 22px 0 8px; }
+.btn-done { padding: 10px 28px; font-size: 15px; }
 
 .quick-add { display: flex; gap: 6px; margin-bottom: 10px; }
 .quick-add input { flex: 1; }

@@ -284,6 +284,30 @@ function dataSection(): HTMLElement {
 
 // ---------- render ----------
 
+// ---------- done ----------
+
+function doneFooter(): HTMLElement {
+  // Settings save as they change; Done just closes the page so setup has a
+  // clear end instead of trailing off.
+  const done = el("button", { class: "btn btn-primary btn-done", type: "button" }, ["Done"]);
+  done.addEventListener("click", async () => {
+    try {
+      const tab = await chrome.tabs.getCurrent();
+      if (tab?.id !== undefined) {
+        await chrome.tabs.remove(tab.id);
+        return;
+      }
+    } catch {
+      // getCurrent is unavailable in some contexts; fall through.
+    }
+    window.close();
+  });
+  return el("div", { class: "done-row" }, [
+    el("span", { class: "hint" }, ["Changes are saved automatically."]),
+    done,
+  ]);
+}
+
 function render(): void {
   clear(app);
   app.append(
@@ -296,6 +320,7 @@ function render(): void {
     behaviorSection(),
     previewSection(),
     dataSection(),
+    doneFooter(),
   );
 }
 
