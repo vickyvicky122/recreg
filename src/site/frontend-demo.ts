@@ -13,9 +13,11 @@ const chips = document.getElementById("demo-chips") as HTMLElement;
 const wordsWrap = document.getElementById("demo-words") as HTMLElement;
 const count = document.getElementById("demo-count") as HTMLElement;
 
-// Per-card thumbnail colour and illustration, in SAMPLE_CARDS order.
-const THUMBS = ["#f7c1d4", "#fbd9c9", "#e9f1d9", "#dcebe6", "#fff1d6", "#f4b3c9"];
-const ICONS = ["fish", "bird", "dragonfly", "cat", "deer", "bee", "bird", "fish", "deer", "dragonfly", "cat", "bee"];
+// Per-card cover images (real YouTube thumbnails, bundled locally so the
+// CSP's img-src 'self' holds), numbered in SAMPLE_CARDS order.
+function thumbSrc(index: number): string {
+  return `assets/thumbs/${String(index + 1).padStart(2, "0")}.jpg`;
+}
 
 let rules: Rule[] = [];
 const revealed = new Set<number>();
@@ -85,11 +87,6 @@ function renderWords(): void {
   }
 }
 
-function icon(name: string): Node | null {
-  const tpl = document.getElementById("icon-" + name) as HTMLTemplateElement | null;
-  return tpl ? tpl.content.cloneNode(true) : null;
-}
-
 function renderGrid(): void {
   clear(grid);
   const matcher = compileMatcher(rules);
@@ -112,10 +109,9 @@ function renderGrid(): void {
       );
       return;
     }
-    const thumb = el("div", { class: "thumb" });
-    thumb.style.setProperty("background", THUMBS[index % THUMBS.length] ?? "#f7c1d4");
-    const art = icon(ICONS[index % ICONS.length] ?? "bird");
-    if (art) thumb.append(art);
+    const thumb = el("div", { class: "thumb" }, [
+      el("img", { src: thumbSrc(index), alt: "", loading: "lazy" }),
+    ]);
     grid.append(
       el("div", { class: "card" }, [
         thumb,
