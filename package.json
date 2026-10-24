@@ -1,0 +1,22 @@
+{
+  "name": "recreg",
+  "version": "0.1.0",
+  "private": true,
+  "description": "recreg — recommendation regulation. You decide what gets recommended to you.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:site": "node build.mjs site",
+    "build:ext": "node build.mjs ext",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "check:security": "node scripts/security-check.mjs",
+    "verify": "npm run check:security && npm run typecheck && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.3.6",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

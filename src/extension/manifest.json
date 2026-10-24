@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "recreg — recommendation regulation",
+  "version": "0.1.0",
+  "description": "You decide what gets recommended to you. Hide unwanted recommendations on YouTube, Reddit and Pinterest. Local, private, no account.",
+  "permissions": ["storage", "scripting"],
+  "optional_host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.reddit.com/*",
+    "*://*.pinterest.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "recreg",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

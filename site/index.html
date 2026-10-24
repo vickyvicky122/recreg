@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>recreg — your feed, your rules</title>
+  <meta name="description" content="recreg is a browser extension that lets you decide what gets recommended to you. Local, private, no account." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <span class="logo">recreg</span>
+      <nav>
+        <a href="#how">How it works</a>
+        <a href="#demo">Demo</a>
+        <a href="#privacy">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <h1>Your feed. Your rules.</h1>
+      <p class="lede">
+        recreg is a browser extension that gives you control over recommended content on
+        YouTube, Reddit and Pinterest. You define what you want to avoid — recreg hides it
+        before you see it, no matter what the algorithm thinks you watched.
+      </p>
+      <p class="principle">Interacting with content is not consent to future recommendations.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#install" id="download-btn">Download extension</a>
+        <a class="btn" href="#demo">Try the demo</a>
+      </div>
+    </section>
+
+    <section id="how" class="wrap">
+      <h2>How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-n">1</span>
+          <h3>Choose your boundaries</h3>
+          <p>Pick topic presets or add your own words and phrases — spoilers, gambling, a phobia, a news event you need a break from. You never have to explain why.</p>
+        </div>
+        <div class="step">
+          <span class="step-n">2</span>
+          <h3>Pick your sites</h3>
+          <p>Enable recreg per site. It only gets access to the sites you choose, and asks your browser for permission one site at a time.</p>
+        </div>
+        <div class="step">
+          <span class="step-n">3</span>
+          <h3>Browse normally</h3>
+          <p>As recommendations load, recreg cross-checks each card against your rules on your device and covers matches before they render. Reveal any item with one click. Your own searches stay untouched.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo" class="demo-band">
+      <div class="wrap">
+        <h2>Try it right here</h2>
+        <p class="hint">A sample feed. Add a filter word (try <em>casino</em>, <em>spider</em>, or <em>haul</em>) or tap a preset — this demo runs the exact same filtering engine that ships in the extension, entirely in your browser.</p>
+        <div class="demo-controls">
+          <input id="demo-input" type="text" maxlength="200" placeholder="word or phrase to filter…" aria-label="Add filter term" />
+          <button id="demo-add" class="btn btn-primary" type="button">Add filter</button>
+        </div>
+        <div id="demo-chips" class="chips" aria-label="Preset filters"></div>
+        <div id="demo-active" class="active-filters"></div>
+        <div id="demo-grid" class="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="install" class="wrap">
+      <h2>Get recreg</h2>
+      <p>recreg is in review for the Chrome Web Store. Until it's listed you can run it from source in about a minute:</p>
+      <ol class="install-steps">
+        <li>Download the latest build from the <a href="https://github.com/" rel="noopener">releases page</a> and unzip it.</li>
+        <li>Open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>.</li>
+        <li>Click <strong>Load unpacked</strong> and select the unzipped folder.</li>
+        <li>Open recreg's settings, enable your sites, and set your filters.</li>
+      </ol>
+      <p class="supported">Works on Chrome, Edge, Brave and Arc. Supported sites today: <strong>YouTube</strong>, <strong>Reddit</strong>, <strong>Pinterest</strong> — more coming.</p>
+    </section>
+
+    <section id="privacy" class="privacy-band">
+      <div class="wrap">
+        <h2>Private by architecture, not by promise</h2>
+        <div class="privacy-grid">
+          <div><h3>No servers</h3><p>Your filter list stays on your device in browser storage. There is no account, no sync, no backend to breach.</p></div>
+          <div><h3>No network access</h3><p>The extension requests zero network capability — it cannot send your data anywhere, and you can verify that by reading its manifest.</p></div>
+          <div><h3>No tracking</h3><p>No analytics, no telemetry, no crash reporting. recreg doesn't know what you filter, and neither does anyone else.</p></div>
+          <div><h3>Least privilege</h3><p>Site access is granted per site, by you, only for the sites you enable. The code is open source and auditable.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <span>recreg — recommendation regulation</span>
+    <span>Open source · No account · No tracking</span>
+  </footer>
+
+  <script src="demo.js"></script>
+</body>
+</html>
