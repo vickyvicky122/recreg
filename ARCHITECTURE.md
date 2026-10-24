@@ -147,8 +147,10 @@ reasoning behind each decision.
 - **Hiding mechanism:** matched cards get a class that collapses them or
   swaps in a neutral placeholder. The placeholder is built with
   `document.createElement` + `textContent` only. The placeholder does **not**
-  display the matched term or rule (a shoulder-surfer must not learn the
-  user's filters from the page); it offers a "reveal this item" affordance.
+  passively display the matched term or rule (a shoulder-surfer must not
+  learn the user's filters from the page); it offers a "reveal this item"
+  affordance, plus a "Why?" button that shows the matched filter only on
+  explicit click.
 - "Hide entire section" mode simply collapses the adapter's container
   selector — cheaper and even less error-prone.
 - The content script holds the compiled matcher in memory; it receives

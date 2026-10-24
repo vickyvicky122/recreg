@@ -43,7 +43,6 @@ function main(site: SiteAdapter): void {
   styleEl.setAttribute("data-recreg", "");
   (document.head ?? document.documentElement).appendChild(styleEl);
 
-  const allCardSelectors = site.regions.flatMap((r) => r.cards);
 
   function baseCss(): string {
     return [
@@ -57,6 +56,9 @@ function main(site: SiteAdapter): void {
       `.recreg-cover button { cursor: pointer; border: 1px solid #4a4d57; border-radius: 999px;`,
       `  background: transparent; color: #aeb3c0; font: 500 12px system-ui, sans-serif; padding: 4px 14px; }`,
       `.recreg-cover button:hover { background: #2a2d36; color: #e8eaed; }`,
+      `.recreg-cover .recreg-why { border: 0; background: transparent; color: #7d8290;`,
+      `  font: 400 11px system-ui, sans-serif; padding: 0; }`,
+      `.recreg-cover button.recreg-why:hover { background: transparent; color: #aeb3c0; text-decoration: underline; }`,
     ].join("\n");
   }
 
@@ -64,9 +66,20 @@ function main(site: SiteAdapter): void {
     // Anti-flash: keep not-yet-checked cards invisible until first scan.
     // visibility (not display) so layout stays stable and the observer
     // still sees them render. A 2s interval backstop guarantees progress.
-    return allCardSelectors
-      .map((sel) => `${sel}:not([${ATTR_CHECKED}])`)
-      .join(",\n") + " { visibility: hidden !important; }";
+    //
+    // Scoped to container+card pairs: scanning only happens inside known
+    // containers, so an unscoped rule would permanently hide card-shaped
+    // elements elsewhere on the page (search results, redesigned sections)
+    // that no scan ever marks as checked.
+    const pairs: string[] = [];
+    for (const region of site.regions) {
+      for (const container of region.containers) {
+        for (const card of region.cards) {
+          pairs.push(`${container} ${card}:not([${ATTR_CHECKED}])`);
+        }
+      }
+    }
+    return pairs.join(",\n") + " { visibility: hidden !important; }";
   }
 
   function filteringActive(): boolean {
@@ -119,7 +132,7 @@ function main(site: SiteAdapter): void {
     return parts.join(" ");
   }
 
-  function hideCard(card: HTMLElement): void {
+  function hideCard(card: HTMLElement, matchedTerm: string): void {
     hiddenCount++;
     if (prefs.mode === "hide") {
       card.setAttribute(ATTR_HIDDEN, "");
@@ -147,7 +160,21 @@ function main(site: SiteAdapter): void {
       e.preventDefault();
       e.stopPropagation();
     });
-    cover.append(label, btn);
+    // "Why?" reveals the matched filter only on explicit click, so the
+    // page never passively displays the user's filter list.
+    const why = document.createElement("button");
+    why.type = "button";
+    why.className = "recreg-why";
+    why.textContent = "Why?";
+    why.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const reason = document.createElement("div");
+      reason.className = "recreg-why";
+      reason.textContent = `Matches your filter: ${matchedTerm}`;
+      why.replaceWith(reason);
+    });
+    cover.append(label, btn, why);
     card.appendChild(cover);
   }
 
@@ -163,13 +190,13 @@ function main(site: SiteAdapter): void {
         firstSeen.set(card, now);
         return;
       }
-      if (now - seen < 3000) return;
+      if (now - seen < 1500) return;
       card.setAttribute(ATTR_CHECKED, "");
       return;
     }
     card.setAttribute(ATTR_CHECKED, "");
     const hit = matcher.match(text);
-    if (hit) hideCard(card);
+    if (hit) hideCard(card, hit.term);
   }
 
   // ---------- scanning ----------
