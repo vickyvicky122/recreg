@@ -3,8 +3,9 @@
 // Usage: node build.mjs [ext|site|all]
 
 import { build } from "esbuild";
-import { mkdir, rm, copyFile, writeFile } from "node:fs/promises";
+import { mkdir, rm, copyFile, writeFile, readFile, readdir } from "node:fs/promises";
 import { deflateSync } from "node:zlib";
+import { join } from "node:path";
 
 const target = process.argv[2] ?? "all";
 
@@ -95,6 +96,71 @@ function iconPixel(size) {
   };
 }
 
+// ---------- minimal ZIP writer (stored entries; no dependencies) ----------
+
+function zipEntries(entries) {
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+
+  for (const { name, data } of entries) {
+    const nameBuf = Buffer.from(name, "utf8");
+    const crc = crc32(data);
+
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0);
+    local.writeUInt16LE(20, 4); // version needed
+    local.writeUInt16LE(0, 6); // flags
+    local.writeUInt16LE(0, 8); // method: stored
+    local.writeUInt32LE(0, 10); // time/date
+    local.writeUInt32LE(crc, 14);
+    local.writeUInt32LE(data.length, 18);
+    local.writeUInt32LE(data.length, 22);
+    local.writeUInt16LE(nameBuf.length, 26);
+    local.writeUInt16LE(0, 28);
+    localParts.push(local, nameBuf, data);
+
+    const central = Buffer.alloc(46);
+    central.writeUInt32LE(0x02014b50, 0);
+    central.writeUInt16LE(20, 4); // made by
+    central.writeUInt16LE(20, 6); // version needed
+    central.writeUInt16LE(0, 8);
+    central.writeUInt16LE(0, 10); // method
+    central.writeUInt32LE(0, 12); // time/date
+    central.writeUInt32LE(crc, 16);
+    central.writeUInt32LE(data.length, 20);
+    central.writeUInt32LE(data.length, 24);
+    central.writeUInt16LE(nameBuf.length, 28);
+    central.writeUInt32LE(offset, 42);
+    centralParts.push(central, nameBuf);
+
+    offset += 30 + nameBuf.length + data.length;
+  }
+
+  const centralDir = Buffer.concat(centralParts);
+  const eocd = Buffer.alloc(22);
+  eocd.writeUInt32LE(0x06054b50, 0);
+  eocd.writeUInt16LE(entries.length, 8);
+  eocd.writeUInt16LE(entries.length, 10);
+  eocd.writeUInt32LE(centralDir.length, 12);
+  eocd.writeUInt32LE(offset, 16);
+
+  return Buffer.concat([...localParts, centralDir, eocd]);
+}
+
+async function collectFiles(dir, prefix) {
+  const entries = [];
+  for (const item of (await readdir(dir, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
+    const path = join(dir, item.name);
+    if (item.isDirectory()) {
+      entries.push(...(await collectFiles(path, `${prefix}${item.name}/`)));
+    } else {
+      entries.push({ name: `${prefix}${item.name}`, data: await readFile(path) });
+    }
+  }
+  return entries;
+}
+
 // ---------- builds ----------
 
 async function buildExt() {
@@ -125,8 +191,16 @@ async function buildExt() {
 }
 
 async function buildSite() {
+  // The site ships a downloadable zip of the extension, so build that first.
+  await buildExt();
+
   await rm("site/dist", { recursive: true, force: true });
   await mkdir("site/dist", { recursive: true });
+
+  const manifest = JSON.parse(await readFile("src/extension/manifest.json", "utf8"));
+  const files = await collectFiles("extension/dist", "recreg-extension/");
+  await writeFile("site/dist/recreg-extension.zip", zipEntries(files));
+  console.log(`site/dist/recreg-extension.zip (v${manifest.version}, ${files.length} files)`);
 
   await build({
     entryPoints: { demo: "src/site/demo.ts" },
@@ -144,5 +218,5 @@ async function buildSite() {
   console.log("site → site/dist (Vercel output directory)");
 }
 
-if (target === "ext" || target === "all") await buildExt();
-if (target === "site" || target === "all") await buildSite();
+if (target === "ext") await buildExt();
+if (target === "site" || target === "all") await buildSite(); // site build includes the extension
