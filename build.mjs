@@ -243,7 +243,7 @@ async function buildFrontend() {
     logLevel: "info",
   });
 
-  for (const f of ["index.html", "demo.html", "style.css", "favicon.svg"]) {
+  for (const f of ["index.html", "demo.html", "evidence.html", "style.css", "favicon.svg"]) {
     await copyFile(`frontend/${f}`, `${out}/${f}`);
   }
   await cp("frontend/assets", `${out}/assets`, { recursive: true });

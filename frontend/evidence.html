@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>recreg, evidence</title>
+<meta name="description" content="How well recreg's presets hide what they should, how we measured it, and where it gets things wrong.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="s1">
+<div class="s2">
+<a class="s3" href="index.html">
+<svg viewBox="0 0 64 64" width="38" height="38" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#f7c1d4"></rect><g transform="translate(9.6 9.6) scale(0.7)"><path d="M22 50V14h13a10.5 10.5 0 0 1 0 21H22" fill="none" stroke="#6b5b61" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M37 41l8 9" fill="none" stroke="#6b5b61" stroke-width="4.2" stroke-linecap="round"></path></g></svg>
+<span class="s4">recreg</span>
+</a>
+<div class="s5">
+<a class="nv" href="index.html#how">How it works</a>
+<a class="nv ev-cur" href="evidence.html">Evidence</a>
+<a class="nv" href="demo.html">Demo</a>
+<a class="nv" href="index.html#privacy">Privacy</a>
+<a class="btn sm s6" href="index.html#install">Download extension</a>
+</div>
+</div>
+
+<div class="ev-hero">
+<p class="ev-pill">Evidence</p>
+<h1 class="ev-h1">Is it reliable?</h1>
+<p class="ev-lede">We tested recreg on video titles we wrote and labelled ourselves. Here is what it catches, what it gets wrong, and how we measured it.</p>
+<p class="ev-note"><span>Results on our tuning set. We adjusted the preset words using these 100 titles, so treat the numbers as optimistic.</span></p>
+</div>
+
+<div class="ev-stats">
+<div class="ev-stat">
+<div class="ev-ring"><svg viewBox="0 0 100 100" width="104" height="104" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="#f8e6ed" stroke-width="10"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#e49cb5" stroke-width="10" stroke-linecap="round" stroke-dasharray="213.6 251.3" transform="rotate(-90 50 50)"></circle></svg><span>85%</span></div>
+<div><p class="ev-stat-t">Caught</p><p class="ev-stat-d">51 of 60 titles that should be hidden</p></div>
+</div>
+<div class="ev-stat">
+<div class="ev-ring"><svg viewBox="0 0 100 100" width="104" height="104" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="#f8e6ed" stroke-width="10"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#8a3d57" stroke-width="10" stroke-linecap="round" stroke-dasharray="7.4 251.3" transform="rotate(-90 50 50)"></circle></svg><span>3%</span></div>
+<div><p class="ev-stat-t">Hidden by mistake</p><p class="ev-stat-d">13 of 440 titles that should stay visible</p></div>
+</div>
+<div class="ev-stat ev-stat-n">
+<p class="ev-big">100</p>
+<p class="ev-stat-t">titles measured</p>
+<p class="ev-stat-d">The set we tuned on, not an independent test</p>
+</div>
+</div>
+
+<div class="ev-grid">
+<div class="ev-card ev-wide">
+<h2 class="ev-h2">Results by preset</h2>
+<p class="ev-p">Every dot is one title from the 100-title tuning set. Left: the titles each preset should hide. Right: the ones it should leave alone.</p>
+<div class="ev-head"><span>Preset</span><span>Should be hidden</span><span>Should stay visible</span></div>
+<div class="ev-row"><span class="ev-name">Gambling</span><div class="ev-dots"><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot miss"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-count">11/12</span></div><div class="ev-sqwrap"><div class="ev-sqs"><span class="ev-sq bad"></span><span class="ev-sq bad"></span><span class="ev-sq"></span><span class="ev-sq bad"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span></div><span class="ev-count bad">3/88</span></div></div>
+<div class="ev-row"><span class="ev-name">Alcohol</span><div class="ev-dots"><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-count">12/12</span></div><div class="ev-sqwrap"><div class="ev-sqs"><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq bad"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span></div><span class="ev-count bad">1/88</span></div></div>
+<div class="ev-row"><span class="ev-name">Shopping prompts</span><div class="ev-dots"><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot miss"></span><span class="ev-dot miss"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot miss"></span><span class="ev-dot miss"></span><span class="ev-dot"></span><span class="ev-count">8/12</span></div><div class="ev-sqwrap"><div class="ev-sqs"><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq bad"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq bad"></span><span class="ev-sq"></span><span class="ev-sq bad"></span><span class="ev-sq bad"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span></div><span class="ev-count bad">4/88</span></div></div>
+<div class="ev-row"><span class="ev-name">Distressing news</span><div class="ev-dots"><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot miss"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-count">11/12</span></div><div class="ev-sqwrap"><div class="ev-sqs"><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq bad"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span></div><span class="ev-count bad">1/88</span></div></div>
+<div class="ev-row"><span class="ev-name">Common phobias</span><div class="ev-dots"><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot miss"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot"></span><span class="ev-dot miss"></span><span class="ev-dot"></span><span class="ev-dot miss"></span><span class="ev-dot"></span><span class="ev-count">9/12</span></div><div class="ev-sqwrap"><div class="ev-sqs"><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq bad"></span><span class="ev-sq bad"></span><span class="ev-sq bad"></span><span class="ev-sq bad"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span><span class="ev-sq"></span></div><span class="ev-count bad">4/88</span></div></div>
+<div class="ev-legend">
+<span><i class="ev-dot"></i>Caught</span>
+<span><i class="ev-dot miss"></i>Missed</span>
+<span><i class="ev-sq"></i>Correctly left visible</span>
+<span><i class="ev-sq bad"></i>Hidden by mistake</span>
+</div>
+</div>
+<div class="ev-card ev-side">
+<h2 class="ev-h2">Where it gets it wrong</h2>
+<p class="ev-p">We show our mistakes on purpose.</p>
+<div class="ev-ex"><span class="ev-tag ">Hidden by mistake</span><p class="ev-ex-t">Spider-Man: No Way Home official trailer</p><p class="ev-ex-w">Matched the word &quot;spider&quot;, but it is a film trailer.</p></div>
+<div class="ev-ex"><span class="ev-tag ">Hidden by mistake</span><p class="ev-ex-t">Casino Royale film review</p><p class="ev-ex-w">Matched &quot;casino&quot;, but it is a Bond film review.</p></div>
+<div class="ev-ex"><span class="ev-tag miss">Missed</span><p class="ev-ex-t">HUGE sp1der found in garage</p><p class="ev-ex-w">A changed spelling slips past word matching.</p></div>
+<div class="ev-ex"><span class="ev-tag miss">Missed</span><p class="ev-ex-t">TikTok made me buy it</p><p class="ev-ex-w">No keyword at all, so nothing matches.</p></div>
+</div>
+</div>
+
+<div class="ev-sec">
+<div class="ev-card">
+<h2 class="ev-h2">How we measured it</h2>
+<p class="ev-p">No model to train. We ran the same matching code that ships in the extension.</p>
+<div class="ev-steps">
+<div class="ev-step"><p class="ev-k">Step 1</p><h3>Write 200 titles</h3><p>Realistic video titles for each preset, plus everyday titles and tricky ones that should stay visible.</p></div>
+<div class="ev-step"><p class="ev-k">Step 2</p><h3>Label each one</h3><p>Our team marked every title "should hide" or "should stay visible". Disagreements are noted.</p></div>
+<div class="ev-step"><p class="ev-k">Step 3</p><h3>Tune on half</h3><p>We adjusted the preset words using 100 of the titles.</p></div>
+<div class="ev-step"><p class="ev-k">Step 4</p><h3>Report, with a caveat</h3><p>The numbers on this page come from those same 100 titles. A fair test needs titles the presets have never seen.</p></div>
+</div>
+</div>
+</div>
+
+<div class="ev-sec">
+<div class="ev-lim">
+<h2 class="ev-h2b">What this does not show</h2>
+<ul>
+<li>These numbers come from the titles we tuned the presets on, so they are optimistic. They are not an independent test.</li>
+<li>We only check titles. Thumbnails, descriptions and captions are not read.</li>
+<li>All titles are in English and written by us. Real feeds are messier.</li>
+<li>Word matching misses changed spellings and titles with no keyword.</li>
+<li>Labels are human judgement, and people can disagree.</li>
+</ul>
+</div>
+</div>
+
+<div class="ev-cta">
+<h2 class="ev-h2b">See it for yourself</h2>
+<p class="ev-p">Add your own words in the demo and watch what gets covered.</p>
+<div class="s11">
+<a class="btn" href="demo.html">Try the demo</a>
+<a class="btn alt" href="index.html#install">Download extension</a>
+</div>
+</div>
+
+<div class="s51">
+<div class="s52">
+<span class="s53">recreg: recommendation regulation</span>
+<span class="s54">Open source · No account · No tracking</span>
+</div>
+</div>
+
+</div>
+</body>
+</html>
