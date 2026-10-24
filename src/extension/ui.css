@@ -10,7 +10,30 @@
   --soft: #fdeef4;
   --ok: #6a9a85;
   --warn: #b45309;
-  --serif: Georgia, "Times New Roman", serif;
+  --sans: "BDO Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* BDO Grotesk (Lokal Container, OFL), bundled with the extension. */
+@font-face {
+  font-family: "BDO Grotesk";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/bdo-grotesk-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "BDO Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/bdo-grotesk-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "BDO Grotesk";
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url("fonts/bdo-grotesk-700.woff2") format("woff2");
 }
 
 * { box-sizing: border-box; }
@@ -18,10 +41,10 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  font: 14px/1.5 var(--sans);
 }
-h1 { font: 700 22px/1.1 var(--serif); margin: 0; }
-h2 { font: 700 18px/1.2 var(--serif); margin: 0 0 2px; }
+h1 { font: 700 22px/1.1 var(--sans); margin: 0; }
+h2 { font: 700 18px/1.2 var(--sans); margin: 0 0 2px; }
 button { font: inherit; }
 
 .popup { width: 320px; padding: 14px; }

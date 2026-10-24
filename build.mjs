@@ -209,6 +209,12 @@ async function buildExt() {
   for (const f of ["manifest.json", "popup.html", "options.html", "ui.css"]) {
     await copyFile(`src/extension/${f}`, `extension/dist/${f}`);
   }
+  // ui.css uses BDO Grotesk; the woff2 files live with the site assets so
+  // there is a single source for the typeface.
+  await mkdir("extension/dist/fonts", { recursive: true });
+  for (const w of [400, 500, 700]) {
+    await copyFile(`frontend/assets/fonts/bdo-grotesk-${w}.woff2`, `extension/dist/fonts/bdo-grotesk-${w}.woff2`);
+  }
   for (const size of [16, 32, 48, 128]) {
     await writeFile(`extension/dist/icons/icon${size}.png`, encodePng(size, iconPixel(size)));
   }

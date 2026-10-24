@@ -1,24 +1,4 @@
-/* Instrument Serif — headings (regular only; the family ships one weight). */
-/* latin */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/instrument-serif-400-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/fonts/instrument-serif-400-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-/* BDO Grotesk (Lokal Container, OFL) — body text. No italic cut ships;
+/* BDO Grotesk (Lokal Container, OFL) — the whole site. No italic cut ships;
    emphasis falls back to the browser's synthetic oblique. */
 @font-face {
   font-family: 'BDO Grotesk';
@@ -61,7 +41,7 @@ html{background:#fff8fb}
 .s5{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
 .s6{margin-left:8px}
 .s7{max-width:1120px;margin:0 auto;padding:36px 24px 0;text-align:center}
-.s8{margin:0 auto;max-width:760px;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(44px,9vw,76px);line-height:1.05;letter-spacing:-0.02em;color:#3d3236}
+.s8{margin:0 auto;max-width:760px;font-family:'BDO Grotesk',system-ui,sans-serif;font-weight:700;font-size:clamp(40px,7vw,62px);line-height:1.05;letter-spacing:-0.02em;color:#3d3236}
 .s9{margin:20px auto 0;max-width:680px;font-size:19px;line-height:1.6;color:#5a4a50}
 .s10{margin:24px auto 0;display:inline-block;padding:10px 20px;border-radius:999px;background:#fbdce7;color:#3d3236;font-size:16px;font-weight:600}
 .s11{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
@@ -78,7 +58,7 @@ html{background:#fff8fb}
 .s22{font-size:14px;font-weight:600;color:#5a4a50;white-space:nowrap}
 .s23{flex:1;min-width:0}
 .s24{max-width:1120px;margin:0 auto;padding:96px 24px 24px}
-.s25{margin:0 0 12px;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:40px;line-height:1.15;letter-spacing:-0.01em;text-align:center}
+.s25{margin:0 0 12px;font-family:'BDO Grotesk',system-ui,sans-serif;font-weight:700;font-size:40px;line-height:1.15;letter-spacing:-0.01em;text-align:center}
 .s26{margin:0 auto 40px;max-width:560px;font-size:18px;line-height:1.6;color:#5a4a50;text-align:center}
 .s27{display:flex;flex-wrap:wrap;gap:20px}
 .s28{flex:1 1 240px;min-width:0;background:#ffffff;border:1px solid #f3d3df;border-radius:20px;padding:24px}
@@ -92,10 +72,10 @@ html{background:#fff8fb}
 .s36{max-width:1120px;margin:0 auto;padding:56px 24px 24px}
 .s37{background:#ffffff;border:1px solid #f3d3df;border-radius:28px;padding:40px 32px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
 .s38{flex:1 1 360px;min-width:0}
-.s39{margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:32px;line-height:1.15}
+.s39{margin:0;font-family:'BDO Grotesk',system-ui,sans-serif;font-weight:700;font-size:32px;line-height:1.15}
 .s40{margin:10px 0 0;font-size:17px;line-height:1.6;color:#5a4a50}
 .s41{background:#fdeef4;border:1px solid #f3d3df;border-radius:28px;padding:56px 32px}
-.s42{margin:0;text-align:center;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:40px;line-height:1.15;letter-spacing:-0.01em}
+.s42{margin:0;text-align:center;font-family:'BDO Grotesk',system-ui,sans-serif;font-weight:700;font-size:40px;line-height:1.15;letter-spacing:-0.01em}
 .s43{margin:14px auto 0;max-width:560px;text-align:center;font-size:18px;line-height:1.6;color:#5a4a50}
 .s44{margin-top:28px;display:flex;justify-content:center}
 .s45{margin:32px auto 0;max-width:640px;padding:0 0 0 22px;font-size:17px;line-height:1.8;color:#3d3236}
@@ -110,7 +90,7 @@ html{background:#fff8fb}
 .s54{font-size:14px;color:#6b5b61}
 .s55{font-weight:600;color:#3d3236}
 .s56{max-width:1120px;margin:0 auto;padding:36px 24px 0}
-.s57{margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(38px,7vw,60px);line-height:1.08;letter-spacing:-0.02em}
+.s57{margin:0;font-family:'BDO Grotesk',system-ui,sans-serif;font-weight:700;font-size:clamp(38px,7vw,60px);line-height:1.08;letter-spacing:-0.02em}
 .s58{margin:16px 0 0;max-width:720px;font-size:18px;line-height:1.6;color:#5a4a50}
 .s59{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .s60{flex:1 1 260px;min-width:0;height:48px;box-sizing:border-box;padding:0 16px;border-radius:12px;border:1px solid #e9b4c6;background:#ffffff;font-size:16px;font-family:inherit;color:#3d3236}
