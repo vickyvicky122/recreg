@@ -1,6 +1,7 @@
 node_modules/
 extension/dist/
 site/dist/
+frontend/dist/
 .vercel/
 *.log
 .DS_Store

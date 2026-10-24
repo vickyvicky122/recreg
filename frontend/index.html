@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>recreg, your feed, your rules</title>
+<meta name="description" content="recreg is a browser extension that lets you decide what gets recommended to you. Local, private, no account.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="s1">
+<div class="s2">
+<a class="s3" href="index.html">
+<svg viewBox="0 0 64 64" width="38" height="38" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#f7c1d4"></rect><g transform="translate(9.6 9.6) scale(0.7)"><path d="M22 50V14h13a10.5 10.5 0 0 1 0 21H22" fill="none" stroke="#6b5b61" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M37 41l8 9" fill="none" stroke="#6b5b61" stroke-width="4.2" stroke-linecap="round"></path></g></svg>
+<span class="s4">recreg</span>
+</a>
+<div class="s5">
+<a class="nv" href="#how">How it works</a>
+<a class="nv" href="demo.html">Demo</a>
+<a class="nv" href="#privacy">Privacy</a>
+<a class="btn sm s6" href="#install">Download extension</a>
+</div>
+</div>
+
+<div class="s7">
+<h1 class="s8">Your feed. Your rules.</h1>
+<p class="s9">recreg is a browser extension that gives you control over recommended content on YouTube, Reddit and Pinterest. You define what you want to avoid, and recreg hides it before you see it, no matter what the algorithm thinks you watched.</p>
+<p class="s10">Interacting with content is not consent to future recommendations.</p>
+<div class="s11">
+<a class="btn" href="#install">Download extension</a>
+<a class="btn alt" href="demo.html">Try the demo</a>
+</div>
+</div>
+
+<div class="s12">
+<div class="s13" id="cmp-stage">
+<img class="s14" src="assets/butterfly.jpg" alt="A pink butterfly in soft focus" draggable="false">
+<div class="s15" id="cmp-clip">
+<img class="s16" src="assets/butterfly-mosaic.png" alt="The same butterfly rebuilt as a mosaic of small squares" draggable="false">
+</div>
+<span class="s17">Without recreg</span>
+<span class="s18">With recreg</span>
+<div class="s19" id="cmp-divider">
+<div class="s20">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#6b5b61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"></path></svg>
+</div>
+</div>
+</div>
+<div class="s21">
+<label class="s22" for="cmp">Drag the line, or use this slider</label>
+<input class="s23" id="cmp" type="range" min="5" max="95" step="1" value="50">
+</div>
+</div>
+
+<div class="s24" id="how">
+<h2 class="s25">How it works</h2>
+<p class="s26">Three steps, and you stay in charge of every one of them.</p>
+<div class="s27">
+<div class="s28">
+<div class="s29"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#a85673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2"></circle><circle cx="8" cy="17" r="2"></circle></svg></div><p class="s30">Step 1</p>
+<h3 class="s31">Choose your boundaries</h3>
+<p class="s32">Pick topic presets or add your own words and phrases: spoilers, gambling, a phobia, a news event you need a break from. You never have to explain why.</p>
+</div>
+<div class="s28">
+<div class="s29"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#a85673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg></div><p class="s30">Step 2</p>
+<h3 class="s31">Pick your sites</h3>
+<p class="s32">Enable recreg per site. It only gets access to the sites you choose, and asks your browser for permission one site at a time.</p>
+</div>
+<div class="s28">
+<div class="s29"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#a85673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 20 6v6c0 5-4 8-8 9-4-1-8-4-8-9V6Z"></path><path d="m9 12 2 2 4-4"></path></svg></div><p class="s30">Step 3</p>
+<h3 class="s31">Browse normally</h3>
+<p class="s32">As recommendations load, recreg cross-checks each card against your rules on your device and covers matches before they render. Reveal any item with one click. Your own searches stay untouched.</p>
+</div>
+</div>
+<div class="s33">
+<span class="s34">Supported sites today:</span>
+<span class="s35">YouTube</span>
+<span class="s35">Reddit</span>
+<span class="s35">Pinterest</span>
+<span class="s34">More coming.</span>
+</div>
+</div>
+
+<div class="s36">
+<div class="s37">
+<div class="s38">
+<h2 class="s39">Try it right here</h2>
+<p class="s40">Add a filter word, tap a preset, and watch a sample feed cover what you do not want to see.</p>
+</div>
+<a class="btn" href="demo.html">Open the demo</a>
+</div>
+</div>
+
+<div class="s36" id="install">
+<div class="s41">
+<h2 class="s42">Get recreg</h2>
+<p class="s43">recreg is heading to the Chrome Web Store. Until it is listed, install it in about a minute.</p>
+<div class="s44">
+<a class="btn" href="recreg-extension.zip" download>
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#3d3236" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
+Download extension
+</a>
+</div>
+<ol class="s45">
+<li>Download the extension and unzip it.</li>
+<li>Open <code class="s46">chrome://extensions</code> and turn on <strong class="s47">Developer mode</strong>.</li>
+<li>Click <strong class="s47">Load unpacked</strong> and select the unzipped folder.</li>
+<li>Open recreg's settings, enable your sites, and set your filters.</li>
+</ol>
+<p class="s48">Works on Chrome, Edge, Brave and Arc. Supported sites today: YouTube, Reddit and Pinterest, with more coming.</p>
+</div>
+</div>
+
+<div class="s49" id="privacy">
+<h2 class="s25">Private by architecture, not by promise</h2>
+<p class="s26">What you filter is your business.</p>
+<div class="s27">
+<div class="s28">
+<div class="s29"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#a85673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></div>
+<h3 class="s50">No servers</h3>
+<p class="s32">Your filter list stays on your device in browser storage. There is no account, no sync, no backend to breach.</p>
+</div>
+<div class="s28">
+<div class="s29"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#a85673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"></path><path d="M5 12a10 10 0 0 1 4-3M16 9a10 10 0 0 1 3 3M8.5 15.5a5 5 0 0 1 4-1.4M12 19h.01"></path></svg></div>
+<h3 class="s50">No network access</h3>
+<p class="s32">The extension requests zero network capability. It cannot send your data anywhere, and you can verify that by reading its manifest.</p>
+</div>
+<div class="s28">
+<div class="s29"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#a85673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"></path><path d="M10.6 6.1A9 9 0 0 1 12 6c5 0 8.5 4 9.5 6a14 14 0 0 1-2.6 3.4M6.6 6.7A14 14 0 0 0 2.5 12C3.5 14 7 18 12 18c1.6 0 3-.4 4.3-1M9.9 9.9a3 3 0 0 0 4.2 4.2"></path></svg></div>
+<h3 class="s50">No tracking</h3>
+<p class="s32">No analytics, no telemetry, no crash reporting. recreg does not know what you filter, and neither does anyone else.</p>
+</div>
+<div class="s28">
+<div class="s29"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#a85673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"></circle><path d="m11 12 8-8M16 7l3 3"></path></svg></div>
+<h3 class="s50">Least privilege</h3>
+<p class="s32">Site access is granted per site, by you, only for the sites you enable. The code is open source and auditable.</p>
+</div>
+</div>
+</div>
+
+<div class="s51">
+<div class="s52">
+<span class="s53">recreg: recommendation regulation</span>
+<span class="s54">Open source · No account · No tracking</span>
+</div>
+</div>
+
+</div>
+<script src="home.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 // Usage: node build.mjs [ext|site|all]
 
 import { build } from "esbuild";
-import { mkdir, rm, copyFile, writeFile, readFile, readdir } from "node:fs/promises";
+import { mkdir, rm, cp, copyFile, writeFile, readFile, readdir } from "node:fs/promises";
 import { deflateSync } from "node:zlib";
 import { join } from "node:path";
 
@@ -190,34 +190,63 @@ async function buildExt() {
   console.log("extension → extension/dist (load unpacked from there)");
 }
 
-async function buildSite() {
-  // The site ships a downloadable zip of the extension, so build that first.
+async function buildFrontend() {
+  // The pink design in frontend/. Static files are copied as-is; the two
+  // scripts are bundled from src/ so the demo runs the real engine.
   await buildExt();
 
-  await rm("site/dist", { recursive: true, force: true });
-  await mkdir("site/dist", { recursive: true });
+  const out = "frontend/dist";
+  await rm(out, { recursive: true, force: true });
+  await mkdir(out, { recursive: true });
 
-  const manifest = JSON.parse(await readFile("src/extension/manifest.json", "utf8"));
   const files = await collectFiles("extension/dist", "recreg-extension/");
-  await writeFile("site/dist/recreg-extension.zip", zipEntries(files));
-  console.log(`site/dist/recreg-extension.zip (v${manifest.version}, ${files.length} files)`);
+  await writeFile(`${out}/recreg-extension.zip`, zipEntries(files));
 
   await build({
-    entryPoints: { demo: "src/site/demo.ts" },
+    entryPoints: { home: "src/site/home.ts", demo: "src/site/frontend-demo.ts" },
     bundle: true,
     format: "iife",
-    outdir: "site/dist",
+    outdir: out,
     target: ["es2020"],
     minify: true,
     logLevel: "info",
   });
 
-  for (const f of ["index.html", "style.css"]) {
-    await copyFile(`site/${f}`, `site/dist/${f}`);
+  for (const f of ["index.html", "demo.html", "style.css", "favicon.svg"]) {
+    await copyFile(`frontend/${f}`, `${out}/${f}`);
   }
-  await writeFile("site/dist/favicon.png", encodePng(32, iconPixel(32)));
-  console.log("site → site/dist (Vercel output directory)");
+  await cp("frontend/assets", `${out}/assets`, { recursive: true });
+  console.log(`frontend → ${out}`);
+}
+
+async function buildSite(htmlDir = "site", outDir = "site/dist") {
+  // The site ships a downloadable zip of the extension, so build that first.
+  await buildExt();
+
+  await rm(outDir, { recursive: true, force: true });
+  await mkdir(outDir, { recursive: true });
+
+  const manifest = JSON.parse(await readFile("src/extension/manifest.json", "utf8"));
+  const files = await collectFiles("extension/dist", "recreg-extension/");
+  await writeFile(`${outDir}/recreg-extension.zip`, zipEntries(files));
+  console.log(`${outDir}/recreg-extension.zip (v${manifest.version}, ${files.length} files)`);
+
+  await build({
+    entryPoints: { demo: "src/site/demo.ts" },
+    bundle: true,
+    format: "iife",
+    outdir: outDir,
+    target: ["es2020"],
+    minify: true,
+    logLevel: "info",
+  });
+
+  await copyFile(`${htmlDir}/index.html`, `${outDir}/index.html`);
+  await copyFile("site/style.css", `${outDir}/style.css`);
+  await writeFile(`${outDir}/favicon.png`, encodePng(32, iconPixel(32)));
+  console.log(`${htmlDir} → ${outDir}`);
 }
 
 if (target === "ext") await buildExt();
+if (target === "frontend") await buildFrontend();
 if (target === "site" || target === "all") await buildSite(); // site build includes the extension

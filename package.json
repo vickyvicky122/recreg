@@ -11,7 +11,9 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "check:security": "node scripts/security-check.mjs",
-    "verify": "npm run check:security && npm run typecheck && npm run test && npm run build"
+    "verify": "npm run check:security && npm run typecheck && npm run test && npm run build",
+    "build:frontend": "node build.mjs frontend",
+    "dev": "npm run build:frontend && node scripts/serve.mjs frontend/dist 4173"
   },
   "devDependencies": {
     "@types/chrome": "^0.3.6",
