@@ -4,7 +4,7 @@
 
 import type { SiteAdapter } from "./schema";
 export { adapterForHost, validateAdapter } from "./schema";
-export type { SiteAdapter, Region, TextSource } from "./schema";
+export type { SiteAdapter, Region, TextSource, FeedbackAction } from "./schema";
 
 const youtube: SiteAdapter = {
   id: "youtube",
@@ -50,6 +50,35 @@ const youtube: SiteAdapter = {
       ],
     },
   ],
+  feedback: {
+    menuButton: [
+      "ytd-menu-renderer yt-icon-button#button button",
+      "ytd-menu-renderer button#button",
+      "ytd-menu-renderer button[aria-label]",
+      "yt-lockup-view-model button[aria-label]",
+      "button[aria-label='More actions']",
+    ],
+    menuItems: [
+      "ytd-popup-container ytd-menu-service-item-renderer",
+      "ytd-popup-container tp-yt-paper-item",
+      "tp-yt-iron-dropdown yt-list-item-view-model",
+      "ytd-popup-container [role='menuitem']",
+    ],
+    // Exact-match labels across YouTube's major locales; an unknown locale
+    // means feedback is skipped, never that a wrong item gets clicked.
+    itemLabels: [
+      "not interested",
+      "no me interesa",
+      "kein interesse",
+      "ça ne m'intéresse pas",
+      "non mi interessa",
+      "não tenho interesse",
+      "не интересует",
+      "мене не цікавить",
+      "興味なし",
+      "관심 없음",
+    ],
+  },
 };
 
 const reddit: SiteAdapter = {

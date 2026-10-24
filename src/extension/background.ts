@@ -49,8 +49,13 @@ async function syncRegistrations(): Promise<void> {
   }
 }
 
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener((details) => {
   void syncRegistrations();
+  // First install: open settings so setup continues instead of ending in
+  // silence — the user lands where sites get enabled and filters added.
+  if (details.reason === "install") {
+    void chrome.runtime.openOptionsPage();
+  }
 });
 chrome.runtime.onStartup.addListener(() => {
   void syncRegistrations();

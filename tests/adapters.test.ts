@@ -23,6 +23,16 @@ describe("adapters", () => {
     expect(adapterForHost(ADAPTERS, "youtube.com.evil.net")).toBeNull();
   });
 
+  it("rejects malformed feedback configs", () => {
+    const base = ADAPTERS.find((a) => a.id === "youtube")!;
+    expect(validateAdapter({ ...base, feedback: { menuButton: [], menuItems: ["x"], itemLabels: ["y"] } })).toContain(
+      "youtube: feedback.menuButton invalid",
+    );
+    expect(
+      validateAdapter({ ...base, feedback: { menuButton: ["b"], menuItems: ["x"], itemLabels: ["Not Interested"] } }),
+    ).toContain('youtube: feedback label "Not Interested" must be lowercased and trimmed');
+  });
+
   it("match patterns stay scoped to their own domains", () => {
     for (const adapter of ADAPTERS) {
       for (const pattern of adapter.matches) {

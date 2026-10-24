@@ -66,9 +66,28 @@ function sitesSection(): HTMLElement {
       await savePrefs();
     });
 
+    const subOptions: HTMLElement[] = [
+      el("label", { class: "sub-option" }, [sectionsToggle, "hide entire recommendation sections"]),
+    ];
+
+    if (adapter.feedback) {
+      const feedbackToggle = el("input", { type: "checkbox", "aria-label": `Tell ${adapter.name} "not interested" for filtered items` }) as HTMLInputElement;
+      feedbackToggle.checked = settings.autoFeedback === true;
+      feedbackToggle.addEventListener("change", async () => {
+        prefs.sites[adapter.id] = { ...(prefs.sites[adapter.id] ?? { enabled: false }), autoFeedback: feedbackToggle.checked };
+        await savePrefs();
+      });
+      subOptions.push(
+        el("label", { class: "sub-option" }, [
+          feedbackToggle,
+          `also mark filtered items "Not interested" on ${adapter.name} — trains its recommendations using your signed-in account; menus may flick open briefly`,
+        ]),
+      );
+    }
+
     return el("div", { class: "site-row" }, [
       el("label", { class: "switch" }, [toggle, el("strong", {}, [adapter.name])]),
-      el("label", { class: "sub-option" }, [sectionsToggle, "hide entire recommendation sections"]),
+      ...subOptions,
     ]);
   });
 

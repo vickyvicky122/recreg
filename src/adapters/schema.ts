@@ -19,6 +19,17 @@ export interface Region {
   text: TextSource[];
 }
 
+export interface FeedbackAction {
+  /** Selectors (within the card) for the card's action-menu button. */
+  menuButton: string[];
+  /** Selectors for the menu items in the page-level popup that button opens. */
+  menuItems: string[];
+  /** Menu-item labels (lowercased, trimmed) that mean "not interested".
+   *  Compared by exact equality so a partial match can never click the
+   *  wrong action. */
+  itemLabels: string[];
+}
+
 export interface SiteAdapter {
   id: string;
   name: string;
@@ -31,6 +42,9 @@ export interface SiteAdapter {
   /** Recommendation regions. Search-results areas are deliberately absent:
    *  deliberate searches pass through by default. */
   regions: Region[];
+  /** How to tell the platform "not interested" for a card, if it supports
+   *  that. Absent = the site offers no feedback action. */
+  feedback?: FeedbackAction;
 }
 
 export function validateAdapter(a: SiteAdapter): string[] {
@@ -61,6 +75,21 @@ export function validateAdapter(a: SiteAdapter): string[] {
     for (const t of r.text ?? []) {
       if (typeof t.selector !== "string") errors.push(`${a.id}/${r.id}: text selector invalid`);
       if (t.attr !== undefined && !nonEmpty(t.attr)) errors.push(`${a.id}/${r.id}: text attr invalid`);
+    }
+  }
+
+  if (a.feedback !== undefined) {
+    const f = a.feedback;
+    for (const key of ["menuButton", "menuItems", "itemLabels"] as const) {
+      const list = f?.[key];
+      if (!Array.isArray(list) || list.length === 0 || !list.every(nonEmpty)) {
+        errors.push(`${a.id}: feedback.${key} invalid`);
+      }
+    }
+    for (const label of f?.itemLabels ?? []) {
+      if (typeof label === "string" && label !== label.trim().toLowerCase()) {
+        errors.push(`${a.id}: feedback label "${label}" must be lowercased and trimmed`);
+      }
     }
   }
   return errors;

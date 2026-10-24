@@ -178,6 +178,100 @@ function main(site: SiteAdapter): void {
     card.appendChild(cover);
   }
 
+  // ---------- platform feedback ("Not interested") ----------
+  //
+  // Opt-in per site. For each newly hidden card, drive the platform's own
+  // dismissal flow (open the card's action menu, click its "not interested"
+  // item) so the recommender learns, instead of recreg only hiding locally.
+  // Best-effort and fail-safe: menu items are matched by EXACT label, one
+  // card is processed at a time with a fixed pause between cards, and an
+  // unmatched menu is closed and never retried.
+
+  const FEEDBACK_PAUSE_MS = 5000;
+  const FEEDBACK_MENU_TIMEOUT_MS = 1500;
+  const feedbackDone = new WeakSet<Element>();
+  const feedbackQueue: HTMLElement[] = [];
+  let feedbackBusy = false;
+
+  function autoFeedbackActive(): boolean {
+    return !!site.feedback && prefs.sites[site.id]?.autoFeedback === true && !prefs.paused;
+  }
+
+  function queueFeedback(card: HTMLElement): void {
+    if (!autoFeedbackActive() || feedbackDone.has(card)) return;
+    feedbackDone.add(card);
+    feedbackQueue.push(card);
+    void drainFeedbackQueue();
+  }
+
+  async function drainFeedbackQueue(): Promise<void> {
+    if (feedbackBusy) return;
+    feedbackBusy = true;
+    try {
+      while (feedbackQueue.length > 0) {
+        const card = feedbackQueue.shift();
+        if (!card || !card.isConnected || !autoFeedbackActive()) continue;
+        try {
+          await sendFeedback(card);
+        } catch {
+          // Never let a feedback attempt break the page.
+        }
+        await sleep(FEEDBACK_PAUSE_MS);
+      }
+    } finally {
+      feedbackBusy = false;
+    }
+  }
+
+  async function sendFeedback(card: HTMLElement): Promise<void> {
+    const fb = site.feedback;
+    if (!fb) return;
+    let button: HTMLElement | null = null;
+    for (const sel of fb.menuButton) {
+      try {
+        button = card.querySelector<HTMLElement>(sel);
+      } catch {
+        continue;
+      }
+      if (button) break;
+    }
+    if (!button) return;
+    button.click();
+    const item = await waitForMenuItem(fb.menuItems, fb.itemLabels);
+    if (item) {
+      item.click();
+    } else {
+      // Unknown menu (locale or DOM drift): close it and leave the card
+      // covered locally. Iron-dropdowns close on Escape.
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    }
+  }
+
+  async function waitForMenuItem(selectors: string[], labels: string[]): Promise<HTMLElement | null> {
+    const deadline = Date.now() + FEEDBACK_MENU_TIMEOUT_MS;
+    while (Date.now() < deadline) {
+      for (const sel of selectors) {
+        let items: NodeListOf<HTMLElement>;
+        try {
+          items = document.querySelectorAll<HTMLElement>(sel);
+        } catch {
+          continue;
+        }
+        for (const item of items) {
+          if (item.getBoundingClientRect().width === 0) continue; // closed/reused popup
+          const label = (item.textContent ?? "").trim().toLowerCase();
+          if (labels.includes(label)) return item;
+        }
+      }
+      await sleep(100);
+    }
+    return null;
+  }
+
+  function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   function processCard(card: HTMLElement, region: Region): void {
     if (card.hasAttribute(ATTR_CHECKED) || revealed.has(card)) return;
     const text = extractText(card, region);
@@ -196,7 +290,10 @@ function main(site: SiteAdapter): void {
     }
     card.setAttribute(ATTR_CHECKED, "");
     const hit = matcher.match(text);
-    if (hit) hideCard(card, hit.term);
+    if (hit) {
+      hideCard(card, hit.term);
+      queueFeedback(card);
+    }
   }
 
   // ---------- scanning ----------
