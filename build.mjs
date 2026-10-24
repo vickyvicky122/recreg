@@ -215,6 +215,7 @@ async function buildSite() {
   for (const f of ["index.html", "style.css"]) {
     await copyFile(`site/${f}`, `site/dist/${f}`);
   }
+  await writeFile("site/dist/favicon.png", encodePng(32, iconPixel(32)));
   console.log("site → site/dist (Vercel output directory)");
 }
 
