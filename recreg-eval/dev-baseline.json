@@ -1,0 +1,198 @@
+{
+  "split": "dev",
+  "titles": 100,
+  "standIn": false,
+  "generatedAt": "2026-10-24T23:08:12.983Z",
+  "presets": [
+    {
+      "id": "gambling",
+      "caught": "42%",
+      "mistakes": "3%",
+      "precision": "63%",
+      "counts": {
+        "tp": 5,
+        "fn": 7,
+        "fp": 3,
+        "tn": 85,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "hardCaught": "0/4",
+      "trapsWronglyHidden": "3/4",
+      "missed": [
+        "Free spins promo codes this week",
+        "Scratch card haul: did we win big?",
+        "Football acca tips and predictions",
+        "Spinning the wheel 100 times in a row",
+        "Fruit machine bonus round compilation",
+        "Lottery numbers drawn tonight",
+        "How I lost my savings on parlays"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Odds and ends: tidying my garage",
+          "matched": "odds"
+        },
+        {
+          "title": "I bet you can't solve this riddle",
+          "matched": "bet"
+        },
+        {
+          "title": "Casino Royale film review",
+          "matched": "casino"
+        }
+      ]
+    },
+    {
+      "id": "alcohol",
+      "caught": "50%",
+      "mistakes": "1%",
+      "precision": "86%",
+      "counts": {
+        "tp": 6,
+        "fn": 6,
+        "fp": 1,
+        "tn": 87,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "hardCaught": "1/4",
+      "trapsWronglyHidden": "1/4",
+      "missed": [
+        "Bourbon vs Scotch: what's the difference?",
+        "Champagne for New Year's Eve under 20 pounds",
+        "Cider farm tour in Somerset",
+        "Sampling 10 IPAs blind",
+        "Negroni masterclass",
+        "Hangover cures tested"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Wine-red nail polish swatches",
+          "matched": "wine"
+        }
+      ]
+    },
+    {
+      "id": "shopping",
+      "caught": "42%",
+      "mistakes": "5%",
+      "precision": "56%",
+      "counts": {
+        "tp": 5,
+        "fn": 7,
+        "fp": 4,
+        "tn": 84,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "hardCaught": "0/4",
+      "trapsWronglyHidden": "3/4",
+      "missed": [
+        "Everything I bought in Japan",
+        "Back to school shopping spree",
+        "What's new at Aldi this week",
+        "Add to cart with me",
+        "Treat yourself: new skincare drops",
+        "TikTok made me buy it",
+        "Prime Day wishlist"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Scratch card haul: did we win big?",
+          "matched": "haul"
+        },
+        {
+          "title": "Fish haul: catching my first carp",
+          "matched": "haul"
+        },
+        {
+          "title": "Unboxing my grandmother's old photos",
+          "matched": "unboxing"
+        },
+        {
+          "title": "Long haul flight survival tips",
+          "matched": "haul"
+        }
+      ]
+    },
+    {
+      "id": "news",
+      "caught": "17%",
+      "mistakes": "1%",
+      "precision": "67%",
+      "counts": {
+        "tp": 2,
+        "fn": 10,
+        "fp": 1,
+        "tn": 87,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "hardCaught": "0/4",
+      "trapsWronglyHidden": "1/4",
+      "missed": [
+        "Live: latest updates on the war in Ukraine",
+        "Plane crash investigation update",
+        "Wildfires destroy hundreds of homes",
+        "Humanitarian crisis deepens as aid runs out",
+        "Tsunami warning issued after quake",
+        "Riots break out across the city",
+        "Famine warning for millions",
+        "Mass casualty event at festival",
+        "Train derailment injures dozens",
+        "Refugees drown crossing the Channel"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Shooting stars: how to photograph a meteor shower",
+          "matched": "shooting"
+        }
+      ]
+    },
+    {
+      "id": "phobias",
+      "caught": "33%",
+      "mistakes": "5%",
+      "precision": "50%",
+      "counts": {
+        "tp": 4,
+        "fn": 8,
+        "fp": 4,
+        "tn": 84,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "hardCaught": "0/4",
+      "trapsWronglyHidden": "4/4",
+      "missed": [
+        "Python swallows a whole deer",
+        "Bed bugs: how to check your hotel room",
+        "Rattlesnake rescue in Arizona",
+        "Hornets attack a beehive",
+        "HUGE sp1der found in garage",
+        "Arachnids of the rainforest",
+        "Slithering surprise in the toilet",
+        "Scorpion stings explained"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Spider-Man: No Way Home official trailer",
+          "matched": "spider"
+        },
+        {
+          "title": "Snakes and ladders world record attempt",
+          "matched": "snakes"
+        },
+        {
+          "title": "Spider plant care: easy houseplants",
+          "matched": "spider"
+        },
+        {
+          "title": "Spider solitaire tips and tricks",
+          "matched": "spider"
+        }
+      ]
+    }
+  ]
+}

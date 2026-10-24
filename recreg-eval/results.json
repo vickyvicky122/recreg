@@ -1,0 +1,235 @@
+{
+  "split": "test",
+  "titles": 100,
+  "standIn": false,
+  "generatedAt": "2026-10-24T23:22:37.073Z",
+  "presets": [
+    {
+      "id": "gambling",
+      "caught": "58%",
+      "mistakes": "3%",
+      "precision": "70%",
+      "counts": {
+        "tp": 7,
+        "fn": 5,
+        "fp": 3,
+        "tn": 85,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "easyCaught": "6/8",
+      "hardCaught": "1/4",
+      "easyCounts": [
+        6,
+        8
+      ],
+      "hardCounts": [
+        1,
+        4
+      ],
+      "trapsWronglyHidden": "3/4",
+      "missed": [
+        "Horse racing tips for Saturday",
+        "The psychology of slot machines",
+        "Guess the winner and double your money",
+        "Bingo night live stream",
+        "Bet365 vs William Hill: which is better?"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "The odds of life on Mars, explained by a physicist",
+          "matched": "odds"
+        },
+        {
+          "title": "Poker face: how to stay calm in interviews",
+          "matched": "poker"
+        },
+        {
+          "title": "Jackpot! I found a rare first edition at a car boot sale",
+          "matched": "jackpot"
+        }
+      ]
+    },
+    {
+      "id": "alcohol",
+      "caught": "50%",
+      "mistakes": "5%",
+      "precision": "60%",
+      "counts": {
+        "tp": 6,
+        "fn": 6,
+        "fp": 4,
+        "tn": 84,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "easyCaught": "5/8",
+      "hardCaught": "1/4",
+      "easyCounts": [
+        5,
+        8
+      ],
+      "hardCounts": [
+        1,
+        4
+      ],
+      "trapsWronglyHidden": "3/4",
+      "missed": [
+        "Pub crawl around Bristol with friends",
+        "Gin and tonic, five ways",
+        "Rum punch recipe for a party",
+        "Bottomless brunch review",
+        "Making limoncello at home",
+        "Drunk history of the Roman Empire"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Root beer float recipe for kids",
+          "matched": "beer"
+        },
+        {
+          "title": "Beef stew with red wine, slow cooker",
+          "matched": "wine"
+        },
+        {
+          "title": "Ginger beer chicken marinade",
+          "matched": "beer"
+        },
+        {
+          "title": "Cocktail dress try-on haul",
+          "matched": "cocktail"
+        }
+      ]
+    },
+    {
+      "id": "shopping",
+      "caught": "33%",
+      "mistakes": "3%",
+      "precision": "57%",
+      "counts": {
+        "tp": 4,
+        "fn": 8,
+        "fp": 3,
+        "tn": 85,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "easyCaught": "4/8",
+      "hardCaught": "0/4",
+      "easyCounts": [
+        4,
+        8
+      ],
+      "hardCounts": [
+        0,
+        4
+      ],
+      "trapsWronglyHidden": "2/4",
+      "missed": [
+        "Amazon must-haves under 20 pounds",
+        "Best deals this week you can't miss",
+        "Christmas gift guide 2026",
+        "Luxury handbag collection tour",
+        "Spending 500 pounds in one day at the mall",
+        "Clearance aisle finds at Target",
+        "This viral gadget is selling out fast",
+        "Restock with me: fridge organisation"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Jackpot! I found a rare first edition at a car boot sale",
+          "matched": "sale"
+        },
+        {
+          "title": "Bill of sale explained: buying a used car legally",
+          "matched": "sale"
+        },
+        {
+          "title": "Discount rate explained in 5 minutes",
+          "matched": "discount"
+        }
+      ]
+    },
+    {
+      "id": "news",
+      "caught": "58%",
+      "mistakes": "2%",
+      "precision": "78%",
+      "counts": {
+        "tp": 7,
+        "fn": 5,
+        "fp": 2,
+        "tn": 86,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "easyCaught": "6/8",
+      "hardCaught": "1/4",
+      "easyCounts": [
+        6,
+        8
+      ],
+      "hardCounts": [
+        1,
+        4
+      ],
+      "trapsWronglyHidden": "2/4",
+      "missed": [
+        "Hurricane makes landfall",
+        "Missing child found after week-long search",
+        "Air strikes hit residential area",
+        "Victims named after motorway pile-up",
+        "Conflict escalates on the border"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Midlife crisis? Learning to skateboard at 40",
+          "matched": "crisis"
+        },
+        {
+          "title": "Kitchen disaster: my first souffle",
+          "matched": "disaster"
+        }
+      ]
+    },
+    {
+      "id": "phobias",
+      "caught": "50%",
+      "mistakes": "1%",
+      "precision": "86%",
+      "counts": {
+        "tp": 6,
+        "fn": 6,
+        "fp": 1,
+        "tn": 87,
+        "shouldHide": 12,
+        "shouldStay": 88
+      },
+      "easyCaught": "6/8",
+      "hardCaught": "0/4",
+      "easyCounts": [
+        6,
+        8
+      ],
+      "hardCounts": [
+        0,
+        4
+      ],
+      "trapsWronglyHidden": "1/4",
+      "missed": [
+        "Insects under a microscope",
+        "Maggots: nature's clean-up crew",
+        "Eight-legged visitor in the bathroom",
+        "Creepy crawlies in your shed",
+        "Daddy long legs everywhere this autumn",
+        "Things with too many legs, ranked"
+      ],
+      "wronglyHidden": [
+        {
+          "title": "Wasp-waisted dresses of the 1950s",
+          "matched": "wasp"
+        }
+      ]
+    }
+  ]
+}

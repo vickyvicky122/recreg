@@ -1,0 +1,201 @@
+id,split,title,category,hard,trap_for,note
+1,dev,Top 10 casino tricks the house doesn't want you to know,gambling,no,,
+2,test,Best betting odds for the weekend fixtures,gambling,no,,
+3,dev,I tried online poker for 30 days,gambling,no,,
+4,test,Roulette strategy that actually works?,gambling,no,,
+5,dev,Huge jackpot win on the slots in Las Vegas,gambling,no,,
+6,test,"How bookmakers set the odds, explained",gambling,no,,
+7,dev,"My 1,000 pound accumulator bet on the Premier League",gambling,no,,
+8,test,Live blackjack session with real money,gambling,no,,
+9,dev,Free spins promo codes this week,gambling,no,,
+10,test,Is sports betting worth it? Honest review,gambling,no,,
+11,dev,Crypto casino review: the good and the bad,gambling,no,,
+12,test,Horse racing tips for Saturday,gambling,no,,
+13,dev,Scratch card haul: did we win big?,gambling,no,,
+14,test,The psychology of slot machines,gambling,no,,
+15,dev,Football acca tips and predictions,gambling,no,,
+16,test,Gambling addiction: my story,gambling,no,,
+17,dev,Spinning the wheel 100 times in a row,gambling,yes,,"should hide, but no obvious keyword or a tricky spelling"
+18,test,Guess the winner and double your money,gambling,yes,,"should hide, but no obvious keyword or a tricky spelling"
+19,dev,Fruit machine bonus round compilation,gambling,yes,,"should hide, but no obvious keyword or a tricky spelling"
+20,test,Bingo night live stream,gambling,yes,,"should hide, but no obvious keyword or a tricky spelling"
+21,dev,Lottery numbers drawn tonight,gambling,yes,,"should hide, but no obvious keyword or a tricky spelling"
+22,test,Bet365 vs William Hill: which is better?,gambling,yes,,"should hide, but no obvious keyword or a tricky spelling"
+23,dev,How I lost my savings on parlays,gambling,yes,,"should hide, but no obvious keyword or a tricky spelling"
+24,test,Poker night with friends gone wrong,gambling,yes,,"should hide, but no obvious keyword or a tricky spelling"
+25,dev,Odds and ends: tidying my garage,none,yes,gambling,contains a word from this preset but should stay visible
+26,test,"The odds of life on Mars, explained by a physicist",none,yes,gambling,contains a word from this preset but should stay visible
+27,dev,I bet you can't solve this riddle,none,yes,gambling,contains a word from this preset but should stay visible
+28,test,Poker face: how to stay calm in interviews,none,yes,gambling,contains a word from this preset but should stay visible
+29,dev,Monte Carlo simulation in Python for beginners,none,yes,gambling,contains a word from this preset but should stay visible
+30,test,Jackpot! I found a rare first edition at a car boot sale,none,yes,gambling,contains a word from this preset but should stay visible
+31,dev,Casino Royale film review,none,yes,gambling,contains a word from this preset but should stay visible
+32,test,Card magic tricks for kids,none,yes,gambling,contains a word from this preset but should stay visible
+33,dev,Whiskey tasting for beginners: 5 bottles under 40 dollars,alcohol,no,,
+34,test,Best cheap wine at the supermarket,alcohol,no,,
+35,dev,How to make a perfect mojito cocktail,alcohol,no,,
+36,test,"Brewing beer at home, start to finish",alcohol,no,,
+37,dev,Ranking every vodka brand,alcohol,no,,
+38,test,Pub crawl around Bristol with friends,alcohol,no,,
+39,dev,Bourbon vs Scotch: what's the difference?,alcohol,no,,
+40,test,"Gin and tonic, five ways",alcohol,no,,
+41,dev,Champagne for New Year's Eve under 20 pounds,alcohol,no,,
+42,test,Craft beer festival vlog,alcohol,no,,
+43,dev,Bartender reacts to viral cocktails,alcohol,no,,
+44,test,Wine tasting in Bordeaux,alcohol,no,,
+45,dev,Tequila shots challenge,alcohol,no,,
+46,test,Rum punch recipe for a party,alcohol,no,,
+47,dev,Cider farm tour in Somerset,alcohol,no,,
+48,test,Sake brewery tour in Kyoto,alcohol,no,,
+49,dev,Happy hour deals near me,alcohol,yes,,"should hide, but no obvious keyword or a tricky spelling"
+50,test,Bottomless brunch review,alcohol,yes,,"should hide, but no obvious keyword or a tricky spelling"
+51,dev,Sampling 10 IPAs blind,alcohol,yes,,"should hide, but no obvious keyword or a tricky spelling"
+52,test,Making limoncello at home,alcohol,yes,,"should hide, but no obvious keyword or a tricky spelling"
+53,dev,Negroni masterclass,alcohol,yes,,"should hide, but no obvious keyword or a tricky spelling"
+54,test,Drunk history of the Roman Empire,alcohol,yes,,"should hide, but no obvious keyword or a tricky spelling"
+55,dev,Hangover cures tested,alcohol,yes,,"should hide, but no obvious keyword or a tricky spelling"
+56,test,Prosecco brunch at home,alcohol,yes,,"should hide, but no obvious keyword or a tricky spelling"
+57,dev,Wine-red nail polish swatches,none,yes,alcohol,contains a word from this preset but should stay visible
+58,test,Root beer float recipe for kids,none,yes,alcohol,contains a word from this preset but should stay visible
+59,dev,Gin rummy rules explained,none,yes,alcohol,contains a word from this preset but should stay visible
+60,test,"Beef stew with red wine, slow cooker",none,yes,alcohol,contains a word from this preset but should stay visible
+61,dev,Spirit of the forest: a short film,none,yes,alcohol,contains a word from this preset but should stay visible
+62,test,Barrel roll: flight sim tutorial,none,yes,alcohol,contains a word from this preset but should stay visible
+63,dev,Brewing kombucha the easy way,none,yes,alcohol,contains a word from this preset but should stay visible
+64,test,Ginger beer chicken marinade,none,yes,alcohol,contains a word from this preset but should stay visible
+65,dev,Black Friday MEGA haul: I spent way too much,shopping,no,,
+66,test,Amazon must-haves under 20 pounds,shopping,no,,
+67,dev,Huge Primark try-on haul,shopping,no,,
+68,test,Best deals this week you can't miss,shopping,no,,
+69,dev,Unboxing the new iPhone,shopping,no,,
+70,test,Sephora sale haul,shopping,no,,
+71,dev,Everything I bought in Japan,shopping,no,,
+72,test,Cyber Monday tech deals,shopping,no,,
+73,dev,Shein haul: honest review,shopping,no,,
+74,test,Christmas gift guide 2026,shopping,no,,
+75,dev,Back to school shopping spree,shopping,no,,
+76,test,Limited time discount codes,shopping,no,,
+77,dev,What's new at Aldi this week,shopping,no,,
+78,test,Luxury handbag collection tour,shopping,no,,
+79,dev,Unboxing a mystery box from eBay,shopping,no,,
+80,test,Cocktail dress try-on haul,shopping,no,,
+81,dev,Add to cart with me,shopping,yes,,"should hide, but no obvious keyword or a tricky spelling"
+82,test,Spending 500 pounds in one day at the mall,shopping,yes,,"should hide, but no obvious keyword or a tricky spelling"
+83,dev,Treat yourself: new skincare drops,shopping,yes,,"should hide, but no obvious keyword or a tricky spelling"
+84,test,Clearance aisle finds at Target,shopping,yes,,"should hide, but no obvious keyword or a tricky spelling"
+85,dev,TikTok made me buy it,shopping,yes,,"should hide, but no obvious keyword or a tricky spelling"
+86,test,This viral gadget is selling out fast,shopping,yes,,"should hide, but no obvious keyword or a tricky spelling"
+87,dev,Prime Day wishlist,shopping,yes,,"should hide, but no obvious keyword or a tricky spelling"
+88,test,Restock with me: fridge organisation,shopping,yes,,"should hide, but no obvious keyword or a tricky spelling"
+89,dev,Fish haul: catching my first carp,none,yes,shopping,contains a word from this preset but should stay visible
+90,test,Bill of sale explained: buying a used car legally,none,yes,shopping,contains a word from this preset but should stay visible
+91,dev,Deal or no deal: game theory explained,none,yes,shopping,contains a word from this preset but should stay visible
+92,test,How to deal with anxiety before exams,none,yes,shopping,contains a word from this preset but should stay visible
+93,dev,Unboxing my grandmother's old photos,none,yes,shopping,contains a word from this preset but should stay visible
+94,test,Shopping centres in the 1980s: archive footage,none,yes,shopping,contains a word from this preset but should stay visible
+95,dev,Long haul flight survival tips,none,yes,shopping,contains a word from this preset but should stay visible
+96,test,Discount rate explained in 5 minutes,none,yes,shopping,contains a word from this preset but should stay visible
+97,dev,Live: latest updates on the war in Ukraine,news,no,,
+98,test,Earthquake death toll rises,news,no,,
+99,dev,Shooting at shopping centre: what we know,news,no,,
+100,test,Flooding disaster leaves thousands homeless,news,no,,
+101,dev,Plane crash investigation update,news,no,,
+102,test,Terror attack suspect arrested,news,no,,
+103,dev,Wildfires destroy hundreds of homes,news,no,,
+104,test,Bombing in city centre: eyewitness accounts,news,no,,
+105,dev,Humanitarian crisis deepens as aid runs out,news,no,,
+106,test,Hostage situation ends after 12 hours,news,no,,
+107,dev,Tsunami warning issued after quake,news,no,,
+108,test,Ferry disaster survivors speak out,news,no,,
+109,dev,Riots break out across the city,news,no,,
+110,test,Hurricane makes landfall,news,no,,
+111,dev,Stabbing near school: police appeal,news,no,,
+112,test,Missing child found after week-long search,news,no,,
+113,dev,Famine warning for millions,news,yes,,"should hide, but no obvious keyword or a tricky spelling"
+114,test,Air strikes hit residential area,news,yes,,"should hide, but no obvious keyword or a tricky spelling"
+115,dev,Mass casualty event at festival,news,yes,,"should hide, but no obvious keyword or a tricky spelling"
+116,test,Gas explosion flattens building,news,yes,,"should hide, but no obvious keyword or a tricky spelling"
+117,dev,Train derailment injures dozens,news,yes,,"should hide, but no obvious keyword or a tricky spelling"
+118,test,Victims named after motorway pile-up,news,yes,,"should hide, but no obvious keyword or a tricky spelling"
+119,dev,Refugees drown crossing the Channel,news,yes,,"should hide, but no obvious keyword or a tricky spelling"
+120,test,Conflict escalates on the border,news,yes,,"should hide, but no obvious keyword or a tricky spelling"
+121,dev,Attack on Titan season finale reaction,none,yes,news,contains a word from this preset but should stay visible
+122,test,Midlife crisis? Learning to skateboard at 40,none,yes,news,contains a word from this preset but should stay visible
+123,dev,Star Wars: the clone wars explained,none,yes,news,contains a word from this preset but should stay visible
+124,test,Kitchen disaster: my first souffle,none,yes,news,contains a word from this preset but should stay visible
+125,dev,Shooting stars: how to photograph a meteor shower,none,yes,news,contains a word from this preset but should stay visible
+126,test,Heart attack symptoms everyone should know,none,yes,news,contains a word from this preset but should stay visible
+127,dev,Bath bomb making tutorial,none,yes,news,contains a word from this preset but should stay visible
+128,test,Pillow fight world championship,none,yes,news,contains a word from this preset but should stay visible
+129,dev,HUGE spider found in garage shocks homeowner,phobias,no,,
+130,test,Snake handling at the reptile zoo,phobias,no,,
+131,dev,Cockroach infestation: exterminator explains,phobias,no,,
+132,test,World's biggest spiders ranked,phobias,no,,
+133,dev,Wasp nest removal close up,phobias,no,,
+134,test,Tarantula care for beginners,phobias,no,,
+135,dev,Python swallows a whole deer,phobias,no,,
+136,test,Insects under a microscope,phobias,no,,
+137,dev,Bed bugs: how to check your hotel room,phobias,no,,
+138,test,Spider web time-lapse,phobias,no,,
+139,dev,Rattlesnake rescue in Arizona,phobias,no,,
+140,test,Centipede vs scorpion,phobias,no,,
+141,dev,Hornets attack a beehive,phobias,no,,
+142,test,Maggots: nature's clean-up crew,phobias,no,,
+143,dev,Black widow spider bite: what happens,phobias,no,,
+144,test,Snakes in the Australian outback,phobias,no,,
+145,dev,HUGE sp1der found in garage,phobias,yes,,"should hide, but no obvious keyword or a tricky spelling"
+146,test,Eight-legged visitor in the bathroom,phobias,yes,,"should hide, but no obvious keyword or a tricky spelling"
+147,dev,Arachnids of the rainforest,phobias,yes,,"should hide, but no obvious keyword or a tricky spelling"
+148,test,Creepy crawlies in your shed,phobias,yes,,"should hide, but no obvious keyword or a tricky spelling"
+149,dev,Slithering surprise in the toilet,phobias,yes,,"should hide, but no obvious keyword or a tricky spelling"
+150,test,Daddy long legs everywhere this autumn,phobias,yes,,"should hide, but no obvious keyword or a tricky spelling"
+151,dev,Scorpion stings explained,phobias,yes,,"should hide, but no obvious keyword or a tricky spelling"
+152,test,"Things with too many legs, ranked",phobias,yes,,"should hide, but no obvious keyword or a tricky spelling"
+153,dev,Spider-Man: No Way Home official trailer,none,yes,phobias,contains a word from this preset but should stay visible
+154,test,Python for beginners: full course,none,yes,phobias,contains a word from this preset but should stay visible
+155,dev,Snakes and ladders world record attempt,none,yes,phobias,contains a word from this preset but should stay visible
+156,test,Bug fixing in JavaScript: debugging tips,none,yes,phobias,contains a word from this preset but should stay visible
+157,dev,Spider plant care: easy houseplants,none,yes,phobias,contains a word from this preset but should stay visible
+158,test,Volkswagen Beetle restoration,none,yes,phobias,contains a word from this preset but should stay visible
+159,dev,Spider solitaire tips and tricks,none,yes,phobias,contains a word from this preset but should stay visible
+160,test,Wasp-waisted dresses of the 1950s,none,yes,phobias,contains a word from this preset but should stay visible
+161,dev,I tried every pasta shape so you don't have to,none,no,,
+162,test,"Building a cabin alone in the forest, week 12",none,no,,
+163,dev,The physics of perfect paper planes,none,no,,
+164,test,"Relaxing rain sounds for deep sleep, 8 hours",none,no,,
+165,dev,Beginner watercolor mistakes and how to fix them,none,no,,
+166,test,How trains know where to go: signalling explained,none,no,,
+167,dev,Season finale breakdown: every twist explained,none,no,,
+168,test,Morning routine for a calm day,none,no,,
+169,dev,Sourdough starter from scratch,none,no,,
+170,test,10-minute stretching for desk workers,none,no,,
+171,dev,How black holes bend light,none,no,,
+172,test,A day in the life of a nurse in London,none,no,,
+173,dev,Learning Korean in 30 days,none,no,,
+174,test,Tiny flat makeover on a budget,none,no,,
+175,dev,Why the sky is blue,none,no,,
+176,test,Knitting a scarf for beginners,none,no,,
+177,dev,Street food tour in Seoul,none,no,,
+178,test,"Marathon training, week 6",none,no,,
+179,dev,How to write a cover letter,none,no,,
+180,test,The history of the printing press,none,no,,
+181,dev,Lo-fi beats to study to,none,no,,
+182,test,"Speedrunning Mario, explained",none,no,,
+183,dev,Cat tries to catch a laser pointer,none,no,,
+184,test,Easy vegan curry in 20 minutes,none,no,,
+185,dev,Bristol harbour walk at sunset,none,no,,
+186,test,How bridges stay up,none,no,,
+187,dev,Chess openings for beginners,none,no,,
+188,test,Repairing a vintage camera,none,no,,
+189,dev,Ocean sounds for focus,none,no,,
+190,test,Making pottery on a wheel,none,no,,
+191,dev,The maths of origami,none,no,,
+192,test,Planting tulip bulbs in autumn,none,no,,
+193,dev,Night sky timelapse in Iceland,none,no,,
+194,test,How to fold a fitted sheet,none,no,,
+195,dev,Restoring an old wooden chair,none,no,,
+196,test,Learn guitar chords in a week,none,no,,
+197,dev,Japanese garden tour in Kyoto,none,no,,
+198,test,Bread baking mistakes to avoid,none,no,,
+199,dev,Interview tips from a recruiter,none,no,,
+200,test,Train journey through the Swiss Alps,none,no,,
