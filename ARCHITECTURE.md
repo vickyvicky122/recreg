@@ -213,8 +213,8 @@ least:
   "permissions": ["storage", "scripting"],
   "optional_host_permissions": [
     "*://*.youtube.com/*",
-    "*://*.pinterest.com/*",
-    "*://*.instagram.com/*"
+    "*://*.reddit.com/*",
+    "*://*.pinterest.com/*"
     // one entry per supported site
   ],
   "host_permissions": []        // none by default
