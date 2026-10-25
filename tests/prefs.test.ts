@@ -88,4 +88,29 @@ describe("validatePreferences", () => {
     expect(out!.sites["youtube"]!.autoFeedback).toBe(true);
     expect(out!.sites["reddit"]!.autoFeedback).toBe(false);
   });
+
+  it("keeps valid user groups and drops malformed ones", () => {
+    const out = validatePreferences({
+      schemaVersion: 1,
+      groups: [
+        { id: "g1", name: "  study " },
+        { id: "g1", name: "duplicate id" },
+        { id: "g2", name: "" },
+        { id: "", name: "no id" },
+        { id: "g3", name: "x".repeat(LIMITS.maxGroupName + 1) },
+        "junk",
+        { id: "g4", name: "diet" },
+      ],
+      rules: [{ term: "exam", group: "g1" }],
+    });
+    expect(out!.groups).toEqual([
+      { id: "g1", name: "study" },
+      { id: "g4", name: "diet" },
+    ]);
+    expect(out!.rules[0]!.group).toBe("g1");
+  });
+
+  it("groups default to an empty list", () => {
+    expect(validatePreferences({ schemaVersion: 1 })!.groups).toEqual([]);
+  });
 });

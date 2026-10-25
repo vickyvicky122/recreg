@@ -9,6 +9,7 @@ import {
   randomId,
   validatePreferences,
   DEFAULT_PREFS,
+  LIMITS,
   type Preferences,
   type Rule,
   type MatchType,
@@ -17,6 +18,9 @@ import { SAMPLE_CARDS } from "../shared/samples";
 
 const app = document.getElementById("app") as HTMLElement;
 let prefs: Preferences = DEFAULT_PREFS;
+// Group picked in the "Add filter" row; kept across re-renders so several
+// words can be added to the same group in a row.
+let lastGroupChoice = "";
 
 async function loadPrefs(): Promise<void> {
   prefs = await chrome.runtime.sendMessage({ type: "recreg:getPrefs" });
@@ -128,16 +132,110 @@ function ruleRow(rule: Rule): HTMLElement {
   });
 
   const typeLabel = rule.matchType === "word" ? "word" : rule.matchType;
+  const groupLabel = rule.group ? groupName(rule.group) : "";
   return el("div", { class: "rule-row" + (rule.enabled ? "" : " rule-off") }, [
     enabled,
     el("span", { class: "rule-term" }, [rule.term]),
-    el("span", { class: "rule-type" }, [typeLabel + (rule.group ? ` · ${rule.group}` : "")]),
+    el("span", { class: "rule-type" }, [typeLabel + (groupLabel ? ` · ${groupLabel}` : "")]),
     remove,
   ]);
 }
 
+/** Display name for a rule's group: user group name, preset name, or the raw id. */
+function groupName(groupId: string): string {
+  return prefs.groups.find((g) => g.id === groupId)?.name ?? PRESETS.find((p) => p.id === groupId)?.name ?? groupId;
+}
+
+// ---------- user groups ----------
+
+function groupChip(group: { id: string; name: string }): HTMLElement {
+  const members = prefs.rules.filter((r) => r.group === group.id);
+  const on = members.some((r) => r.enabled);
+  const title = members.length === 0
+    ? `${group.name} has no words yet. Click to add some.`
+    : on
+      ? `Turn off ${group.name} (${members.length} words, kept for later)`
+      : `Turn on ${group.name} (${members.length} words)`;
+  const toggle = el("button", { class: "chip-toggle", type: "button", title, "aria-pressed": on ? "true" : "false" }, [
+    (on ? "✓ " : "+ ") + group.name,
+  ]);
+  toggle.addEventListener("click", async () => {
+    if (members.length === 0) {
+      // Nothing to toggle yet: pick this group in the add row instead.
+      lastGroupChoice = group.id;
+      render();
+      focusAddInput();
+      return;
+    }
+    // Like presets, the words appear in the list when on and disappear when
+    // off, but they are only disabled, never deleted.
+    for (const r of members) r.enabled = !on;
+    await savePrefs();
+  });
+  const remove = el("button", { class: "chip-remove", type: "button", "aria-label": `Delete group ${group.name}` }, ["×"]);
+  remove.addEventListener("click", async () => {
+    const msg = members.length
+      ? `Delete the group "${group.name}" and its ${members.length} word${members.length === 1 ? "" : "s"}?`
+      : `Delete the group "${group.name}"?`;
+    if (!window.confirm(msg)) return;
+    prefs.groups = prefs.groups.filter((g) => g.id !== group.id);
+    prefs.rules = prefs.rules.filter((r) => r.group !== group.id);
+    if (lastGroupChoice === group.id) lastGroupChoice = "";
+    await savePrefs();
+  });
+  return el("span", { class: "chip chip-group" + (on ? " chip-on" : ""), title }, [toggle, remove]);
+}
+
+let focusAddInput: () => void = () => {};
+
+/** Ids of groups (presets or yours) that are switched off: words exist, none enabled. */
+function offGroupIds(): Set<string> {
+  const byGroup = new Map<string, boolean>();
+  for (const r of prefs.rules) {
+    if (!r.group) continue;
+    byGroup.set(r.group, (byGroup.get(r.group) ?? false) || r.enabled);
+  }
+  const off = new Set<string>();
+  for (const [id, anyOn] of byGroup) if (!anyOn) off.add(id);
+  return off;
+}
+
+function newGroupControl(): HTMLElement {
+  const nameInput = el("input", {
+    type: "text",
+    placeholder: "new group, e.g. study",
+    maxlength: String(LIMITS.maxGroupName),
+    "aria-label": "New group name",
+  }) as HTMLInputElement;
+  const createBtn = el("button", { class: "chip chip-create", type: "button" }, ["Create"]);
+  const create = async () => {
+    const name = nameInput.value.trim();
+    if (!name) return;
+    if (prefs.groups.length >= LIMITS.maxGroups) {
+      window.alert(`You can have up to ${LIMITS.maxGroups} groups.`);
+      return;
+    }
+    if (prefs.groups.some((g) => g.name.toLowerCase() === name.toLowerCase())) {
+      window.alert("You already have a group with that name.");
+      return;
+    }
+    const group = { id: randomId(), name };
+    prefs.groups.push(group);
+    lastGroupChoice = group.id;
+    nameInput.value = "";
+    await savePrefs();
+    focusAddInput();
+  };
+  createBtn.addEventListener("click", create);
+  nameInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") void create();
+  });
+  return el("span", { class: "group-new" }, [nameInput, createBtn]);
+}
+
 function filtersSection(): HTMLElement {
   const input = el("input", { type: "text", placeholder: "word or phrase to filter…", maxlength: "200" }) as HTMLInputElement;
+  focusAddInput = () => input.focus();
   const typeSel = el("select", { "aria-label": "Match type" }) as HTMLSelectElement;
   for (const [value, label] of [
     ["word", "whole word"],
@@ -146,16 +244,34 @@ function filtersSection(): HTMLElement {
   ] as const) {
     typeSel.append(el("option", { value }, [label]));
   }
+  const groupSel = el("select", { "aria-label": "Add to group" }) as HTMLSelectElement;
+  groupSel.append(el("option", { value: "" }, ["no group"]));
+  const presetOpts = el("optgroup", { label: "Presets" });
+  for (const p of PRESETS) presetOpts.append(el("option", { value: p.id }, [p.name]));
+  groupSel.append(presetOpts);
+  if (prefs.groups.length) {
+    const own = el("optgroup", { label: "Your groups" });
+    for (const g of prefs.groups) own.append(el("option", { value: g.id }, [g.name]));
+    groupSel.append(own);
+  }
+  const knownGroup = PRESETS.some((p) => p.id === lastGroupChoice) || prefs.groups.some((g) => g.id === lastGroupChoice);
+  if (knownGroup) groupSel.value = lastGroupChoice;
+  else lastGroupChoice = "";
+  groupSel.addEventListener("change", () => {
+    lastGroupChoice = groupSel.value;
+  });
   const addBtn = el("button", { class: "btn btn-primary", type: "button" }, ["Add filter"]);
   const add = async () => {
     const term = input.value.trim();
     if (!term) return;
-    prefs.rules.push({
+    const rule: Rule = {
       id: randomId(),
       term,
       matchType: typeSel.value as MatchType,
       enabled: true,
-    });
+    };
+    if (groupSel.value) rule.group = groupSel.value;
+    prefs.rules.push(rule);
     input.value = "";
     await savePrefs();
   };
@@ -165,33 +281,46 @@ function filtersSection(): HTMLElement {
   });
 
   const presetButtons = PRESETS.map((preset) => {
-    const applied = prefs.rules.some((r) => r.group === preset.id);
-    const btn = el("button", { class: "chip" + (applied ? " chip-on" : ""), type: "button", title: preset.description }, [
-      (applied ? "✓ " : "+ ") + preset.name,
+    const members = prefs.rules.filter((r) => r.group === preset.id);
+    const on = members.some((r) => r.enabled);
+    const btn = el("button", { class: "chip" + (on ? " chip-on" : ""), type: "button", title: preset.description, "aria-pressed": on ? "true" : "false" }, [
+      (on ? "✓ " : "+ ") + preset.name,
     ]);
     btn.addEventListener("click", async () => {
-      if (applied) {
-        prefs.rules = prefs.rules.filter((r) => r.group !== preset.id);
-      } else {
+      if (members.length === 0) {
+        // First use: add the preset's starter terms as ordinary editable rules.
         const existing = new Set(prefs.rules.map((r) => r.term.toLowerCase() + "|" + r.matchType));
         for (const t of preset.terms) {
           const matchType: MatchType = t.matchType ?? "word";
           if (existing.has(t.term.toLowerCase() + "|" + matchType)) continue;
           prefs.rules.push({ id: randomId(), term: t.term, matchType, enabled: true, group: preset.id });
         }
+      } else {
+        // Afterwards the chip is a switch: off disables and parks the words
+        // (including any you added or edited), on brings them back.
+        for (const r of members) r.enabled = !on;
       }
       await savePrefs();
     });
     return btn;
   });
 
+  // Words in a group that is switched off stay stored but leave the list,
+  // so the list only shows what is in effect (plus singly-disabled words).
+  const off = offGroupIds();
+  const visibleRules = prefs.rules.filter((r) => !(r.group && off.has(r.group)));
+  const parked = prefs.rules.length - visibleRules.length;
+  const emptyHint = parked > 0
+    ? `No filters in effect. ${parked} word${parked === 1 ? " is" : "s are"} kept in groups that are switched off.`
+    : "No filters yet.";
+
   return section(
     "Filters",
-    "Presets add editable starter terms — review them and remove any that don't apply to you. You never have to explain why a term is on your list.",
+    "Presets add editable starter terms — review them, remove any that don't apply, add your own to the same group. Switching a group off keeps its words for later. You never have to explain why a term is on your list.",
     [
-      el("div", { class: "chips" }, presetButtons),
-      el("div", { class: "add-row" }, [input, typeSel, addBtn]),
-      el("div", { class: "rules" }, prefs.rules.length ? prefs.rules.map(ruleRow) : [el("p", { class: "hint" }, ["No filters yet."])]),
+      el("div", { class: "chips" }, [...presetButtons, ...prefs.groups.map(groupChip), newGroupControl()]),
+      el("div", { class: "add-row" }, [input, typeSel, groupSel, addBtn]),
+      el("div", { class: "rules" }, visibleRules.length ? visibleRules.map(ruleRow) : [el("p", { class: "hint" }, [emptyHint])]),
     ],
   );
 }

@@ -109,6 +109,14 @@ input[type="checkbox"], input[type="radio"] { accent-color: #d9739a; }
 .chip:hover { border-color: var(--accent); }
 .chip-on { background: var(--soft); color: var(--accent-text); border-color: var(--accent-edge); font-weight: 600; }
 
+.chip-group { display: inline-flex; align-items: center; padding: 0; overflow: hidden; }
+.chip-group .chip-toggle { border: 0; background: transparent; color: inherit; font: inherit; padding: 5px 2px 5px 12px; cursor: pointer; }
+.chip-group .chip-remove { border: 0; background: transparent; color: var(--muted); font: 600 13px/1 system-ui, sans-serif; padding: 5px 9px 5px 5px; cursor: pointer; opacity: 0.6; }
+.chip-group:hover .chip-remove { opacity: 1; }
+.chip-group .chip-remove:hover { color: var(--warn); }
+.group-new { display: inline-flex; gap: 6px; align-items: center; }
+.group-new input { padding: 4px 12px; font-size: 13px; border-radius: 999px; width: 170px; }
+.chip-create { background: var(--soft); }
 .add-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
 .add-row input { flex: 1; min-width: 180px; }
 

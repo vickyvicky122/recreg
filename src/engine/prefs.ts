@@ -13,8 +13,16 @@ export interface Rule {
   enabled: boolean;
   /** Adapter ids this rule applies to; absent/empty = all sites. */
   sites?: string[];
-  /** Preset group this rule came from, for bulk management. */
+  /** Group this rule belongs to, for bulk management: a preset id
+   *  ("gambling") or the id of a user-created Group. */
   group?: string;
+}
+
+/** A user-created bundle of rules ("study", "diet"). Toggling it enables or
+ *  disables its rules in one go; the words themselves are kept. */
+export interface Group {
+  id: string;
+  name: string;
 }
 
 export interface SiteSettings {
@@ -36,6 +44,7 @@ export interface Preferences {
   mode: FilterMode;
   sites: Record<string, SiteSettings>;
   rules: Rule[];
+  groups: Group[];
 }
 
 export const LIMITS = {
@@ -44,6 +53,8 @@ export const LIMITS = {
   maxIdLength: 64,
   maxSiteId: 50,
   maxSitesPerRule: 20,
+  maxGroups: 50,
+  maxGroupName: 40,
 } as const;
 
 export const DEFAULT_PREFS: Preferences = {
@@ -52,6 +63,7 @@ export const DEFAULT_PREFS: Preferences = {
   mode: "placeholder",
   sites: {},
   rules: [],
+  groups: [],
 };
 
 export function randomId(): string {
@@ -82,7 +94,22 @@ export function validatePreferences(input: unknown): Preferences | null {
     mode: input.mode === "hide" ? "hide" : "placeholder",
     sites: {},
     rules: [],
+    groups: [],
   };
+
+  if (Array.isArray(input.groups)) {
+    const seen = new Set<string>();
+    for (const raw of input.groups.slice(0, LIMITS.maxGroups)) {
+      if (!isRecord(raw)) continue;
+      if (typeof raw.id !== "string" || raw.id.length === 0 || raw.id.length > LIMITS.maxIdLength) continue;
+      if (typeof raw.name !== "string") continue;
+      const name = raw.name.trim();
+      if (!name || name.length > LIMITS.maxGroupName) continue;
+      if (seen.has(raw.id)) continue;
+      seen.add(raw.id);
+      out.groups.push({ id: raw.id, name });
+    }
+  }
 
   if (isRecord(input.sites)) {
     for (const [key, value] of Object.entries(input.sites)) {
@@ -120,7 +147,7 @@ export function validatePreferences(input: unknown): Preferences | null {
           .slice(0, LIMITS.maxSitesPerRule);
         if (sites.length > 0) rule.sites = sites;
       }
-      if (typeof raw.group === "string" && raw.group.length > 0 && raw.group.length <= LIMITS.maxSiteId) {
+      if (typeof raw.group === "string" && raw.group.length > 0 && raw.group.length <= LIMITS.maxIdLength) {
         rule.group = raw.group;
       }
       out.rules.push(rule);
