@@ -24,6 +24,10 @@ export interface SiteSettings {
   /** Show a "Not interested on <platform>" button on covered cards. The
    *  signal is only sent when the user presses it. Opt-in; off by default. */
   feedbackButton?: boolean;
+  /** Automatically send the platform's "not interested" for every matched
+   *  card, so the platform's own notice (Undo / Tell us why) replaces the
+   *  recreg cover. Opt-in; off by default. */
+  autoFeedback?: boolean;
 }
 
 export interface Preferences {
@@ -88,6 +92,7 @@ export function validatePreferences(input: unknown): Preferences | null {
         enabled: value.enabled === true,
         hideSections: value.hideSections === true,
         feedbackButton: value.feedbackButton === true,
+        autoFeedback: value.autoFeedback === true,
       };
     }
   }

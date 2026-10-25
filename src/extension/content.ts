@@ -109,6 +109,8 @@ function main(site: SiteAdapter): void {
 
   function resetMarks(): void {
     hiddenCount = 0;
+    sentCount = 0;
+    autoQueue.length = 0;
     for (const el of document.querySelectorAll(`[${ATTR_CHECKED}], [${ATTR_HIDDEN}], [${ATTR_COVERED}], [${ATTR_SECTION}]`)) {
       el.removeAttribute(ATTR_CHECKED);
       el.removeAttribute(ATTR_HIDDEN);
@@ -139,11 +141,24 @@ function main(site: SiteAdapter): void {
     return parts.join(" ");
   }
 
-  function hideCard(card: HTMLElement, matchedTerm: string): void {
+  interface CoverHandle {
+    /** Replace the cover's small status line ("" hides it). */
+    setNote(text: string): void;
+    /** Drop the cover and let the card show whatever the page renders. */
+    release(): void;
+  }
+
+  function hideCard(card: HTMLElement, matchedTerm: string): CoverHandle {
     hiddenCount++;
     if (prefs.mode === "hide") {
       card.setAttribute(ATTR_HIDDEN, "");
-      return;
+      return {
+        setNote() {},
+        release() {
+          revealed.add(card);
+          card.removeAttribute(ATTR_HIDDEN);
+        },
+      };
     }
     card.setAttribute(ATTR_COVERED, "");
     const cover = document.createElement("div");
@@ -235,30 +250,98 @@ function main(site: SiteAdapter): void {
     showDefault();
     cover.append(label, actions, note, why);
     card.appendChild(cover);
+    return {
+      setNote(text) {
+        note.textContent = text;
+      },
+      release() {
+        revealed.add(card);
+        card.removeAttribute(ATTR_COVERED);
+        cover.remove();
+      },
+    };
   }
 
   // ---------- platform feedback ("Not interested") ----------
   //
-  // Opt-in per site, and only ever triggered by the user pressing the
-  // cover's "Not interested on YouTube" button. recreg never sends it on its
-  // own. The click drives the platform's own dismissal flow (open the card's
-  // action menu, click its "not interested" item). Best-effort and fail-safe:
-  // menu items are matched by EXACT label, and an unmatched menu is closed.
+  // Two opt-in modes per site, both off by default:
+  // - feedbackButton: the cover shows a "Not interested on YouTube" button
+  //   and the signal is sent only when the user presses it.
+  // - autoFeedback: every newly matched card is sent automatically, one at a
+  //   time with a pause between cards; the popup exposes this toggle.
+  // Either way the click drives the platform's own dismissal flow (open the
+  // card's action menu, click its "not interested" item). Best-effort and
+  // fail-safe: menu items are matched by EXACT label, an unmatched menu is
+  // closed, and a card that could not be sent stays covered by recreg.
   //
-  // After the click, the cover is removed so the platform's own notice
-  // ("Video removed", Undo, Tell us why) is shown to the user. recreg never
-  // clicks, fills in or submits any of it, including "Tell us why".
+  // After a successful click, the cover is removed so the platform's own
+  // notice ("Video removed", Undo, Tell us why) is shown to the user. recreg
+  // never clicks, fills in or submits any of it, including "Tell us why".
 
   const FEEDBACK_MENU_TIMEOUT_MS = 1500;
+  const AUTO_FEEDBACK_PAUSE_MS = 1500;
   let feedbackBusy = false;
+  let sentCount = 0;
+  const autoQueue: Array<{ card: HTMLElement; cover: CoverHandle }> = [];
+  let autoDraining = false;
 
   function feedbackButtonActive(): boolean {
     return !!site.feedback && prefs.sites[site.id]?.feedbackButton === true;
   }
 
+  function autoFeedbackActive(): boolean {
+    return !!site.feedback && prefs.sites[site.id]?.autoFeedback === true && !prefs.paused;
+  }
+
+  function queueAutoFeedback(card: HTMLElement, cover: CoverHandle): void {
+    cover.setNote("Sending to YouTube…");
+    autoQueue.push({ card, cover });
+    void drainAutoQueue();
+  }
+
+  async function drainAutoQueue(): Promise<void> {
+    if (autoDraining) return;
+    autoDraining = true;
+    try {
+      while (autoQueue.length > 0) {
+        const next = autoQueue.shift();
+        if (!next) continue;
+        const { card, cover } = next;
+        // Skip entries made stale by a reset (prefs change / SPA navigation),
+        // a manual Show, or the toggle being switched off meanwhile.
+        const stillMarked = card.hasAttribute(ATTR_COVERED) || card.hasAttribute(ATTR_HIDDEN);
+        if (!card.isConnected || !stillMarked || revealed.has(card) || !autoFeedbackActive()) {
+          cover.setNote("");
+          continue;
+        }
+        while (feedbackBusy) await sleep(100); // a manual button press is in flight
+        feedbackBusy = true;
+        let sent = false;
+        try {
+          sent = await sendFeedback(card);
+        } catch {
+          sent = false;
+        } finally {
+          feedbackBusy = false;
+        }
+        if (sent) {
+          sentCount++;
+          cover.release();
+          lastReport = "";
+          reportStatus();
+        } else {
+          cover.setNote("Couldn't send to YouTube automatically. Still hidden by recreg.");
+        }
+        await sleep(AUTO_FEEDBACK_PAUSE_MS);
+      }
+    } finally {
+      autoDraining = false;
+    }
+  }
+
   async function sendFeedback(card: HTMLElement): Promise<boolean> {
     const fb = site.feedback;
-    if (!fb || !feedbackButtonActive()) return false;
+    if (!fb || !(feedbackButtonActive() || autoFeedbackActive())) return false;
     let button: HTMLElement | null = null;
     for (const sel of fb.menuButton) {
       try {
@@ -324,7 +407,9 @@ function main(site: SiteAdapter): void {
     }
     card.setAttribute(ATTR_CHECKED, "");
     const hit = matcher.match(text);
-    if (hit) hideCard(card, hit.term);
+    if (!hit) return;
+    const cover = hideCard(card, hit.term);
+    if (autoFeedbackActive()) queueAutoFeedback(card, cover);
   }
 
   // ---------- scanning ----------
@@ -388,11 +473,11 @@ function main(site: SiteAdapter): void {
 
   function reportStatus(): void {
     const active = filteringActive();
-    const key = `${healthy}|${hiddenCount}|${active}`;
+    const key = `${healthy}|${hiddenCount}|${sentCount}|${active}`;
     if (key === lastReport) return;
     lastReport = key;
     void chrome.runtime
-      .sendMessage({ type: "recreg:status", adapterId: site.id, healthy, hiddenCount, active })
+      .sendMessage({ type: "recreg:status", adapterId: site.id, healthy, hiddenCount, sentCount, active })
       .catch(() => {
         /* service worker may be waking; next report will land */
       });
@@ -422,6 +507,7 @@ function main(site: SiteAdapter): void {
         siteName: site.name,
         healthy,
         hiddenCount,
+        sentCount,
         active: filteringActive(),
       });
     }

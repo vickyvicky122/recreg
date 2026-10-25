@@ -59,7 +59,7 @@ describe("validatePreferences", () => {
     });
     expect(out!.rules[0]!.term).toBe("padded");
     expect(out!.rules[0]!.id.length).toBeGreaterThan(0);
-    expect(out!.sites["youtube"]).toEqual({ enabled: true, hideSections: false, feedbackButton: false });
+    expect(out!.sites["youtube"]).toEqual({ enabled: true, hideSections: false, feedbackButton: false, autoFeedback: false });
     expect(Object.keys(out!.sites)).toEqual(["youtube"]);
   });
 
@@ -74,5 +74,18 @@ describe("validatePreferences", () => {
     });
     expect(out!.sites["youtube"]!.feedbackButton).toBe(true);
     expect(out!.sites["reddit"]!.feedbackButton).toBe(false);
+  });
+
+  it("autoFeedback is opt-in: only an explicit true survives", () => {
+    const out = validatePreferences({
+      schemaVersion: 1,
+      sites: {
+        youtube: { enabled: true, autoFeedback: true },
+        reddit: { enabled: true, autoFeedback: 1 },
+      },
+      rules: [],
+    });
+    expect(out!.sites["youtube"]!.autoFeedback).toBe(true);
+    expect(out!.sites["reddit"]!.autoFeedback).toBe(false);
   });
 });

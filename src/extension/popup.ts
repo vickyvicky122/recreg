@@ -1,6 +1,7 @@
 // Popup: status on the current tab, pause toggle, quick-add filter.
 
 import { el, clear } from "./dom";
+import { ADAPTERS } from "../adapters";
 import { randomId, type Preferences } from "../engine/prefs";
 
 interface TabStatus {
@@ -8,6 +9,7 @@ interface TabStatus {
   siteName: string;
   healthy: boolean;
   hiddenCount: number;
+  sentCount?: number;
   active: boolean;
 }
 
@@ -59,7 +61,14 @@ async function render(): Promise<void> {
     } else if (!status.active) {
       app.append(statusRow(`No active filters on ${status.siteName}`, "muted"));
     } else {
-      app.append(statusRow(`Active on ${status.siteName} — ${status.hiddenCount} hidden on this page`, "ok"));
+      const sent = status.sentCount ?? 0;
+      app.append(
+        statusRow(
+          `Active on ${status.siteName} — ${status.hiddenCount} hidden on this page` +
+            (sent > 0 ? `, ${sent} sent to ${status.siteName}` : ""),
+          "ok",
+        ),
+      );
     }
   } else {
     app.append(statusRow("Not active on this page (unsupported site, or reload the tab after enabling)", "muted"));
@@ -101,11 +110,34 @@ async function render(): Promise<void> {
     if (e.key === "Enter") void add();
   });
 
+  // Auto "Not interested": one toggle per site that supports it (YouTube).
+  // Off by default; the same toggle lives in settings.
+  const autoRows = ADAPTERS.filter((a) => a.feedback).map((adapter) => {
+    const settings = prefs.sites[adapter.id] ?? { enabled: false };
+    const toggle = el("input", { type: "checkbox", "aria-label": `Automatically tell ${adapter.name} "not interested" for filtered videos` }) as HTMLInputElement;
+    toggle.checked = settings.autoFeedback === true;
+    toggle.addEventListener("change", async () => {
+      prefs.sites[adapter.id] = { ...(prefs.sites[adapter.id] ?? { enabled: false }), autoFeedback: toggle.checked };
+      await setPrefs(prefs);
+      await render();
+    });
+    return el("label", { class: "popup-toggle" }, [
+      toggle,
+      el("span", {}, [
+        el("strong", {}, [`Auto "Not interested" on ${adapter.name}`]),
+        el("small", {}, [
+          `Filtered videos are reported to ${adapter.name} as you scroll, using your signed-in account. ${adapter.name} then shows its own Undo notice instead of the recreg cover. A ${adapter.name} menu may open briefly.`,
+        ]),
+      ]),
+    ]);
+  });
+
   const optionsLink = el("button", { class: "btn btn-ghost", type: "button" }, ["Open settings"]);
   optionsLink.addEventListener("click", () => chrome.runtime.openOptionsPage());
 
   app.append(
     el("div", { class: "quick-add" }, [input, addBtn]),
+    ...autoRows,
     el("div", { class: "popup-actions" }, [pauseBtn, optionsLink]),
     el("footer", { class: "popup-foot" }, [`${prefs.rules.filter((r) => r.enabled).length} active filters`]),
   );

@@ -78,6 +78,10 @@ input[type="text"], select {
 }
 input[type="text"]:focus-visible, select:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
+.popup-toggle { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin-bottom: 10px; border-radius: 14px; background: var(--soft); border: 1px solid var(--border); cursor: pointer; }
+.popup-toggle input { margin-top: 3px; flex: none; }
+.popup-toggle strong { display: block; font-size: 13px; }
+.popup-toggle small { display: block; color: var(--muted); font-size: 11.5px; line-height: 1.4; margin-top: 2px; }
 .popup-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .popup-foot { margin-top: 12px; color: var(--muted); font-size: 12px; }
 

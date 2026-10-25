@@ -83,6 +83,19 @@ function sitesSection(): HTMLElement {
           `Show a 'Not interested on ${adapter.name}' button on hidden items. Tapping it tells ${adapter.name} using your signed-in account. A ${adapter.name} menu may open briefly.`,
         ]),
       );
+
+      const autoToggle = el("input", { type: "checkbox", "aria-label": `Automatically tell ${adapter.name} "not interested" for filtered videos` }) as HTMLInputElement;
+      autoToggle.checked = settings.autoFeedback === true;
+      autoToggle.addEventListener("change", async () => {
+        prefs.sites[adapter.id] = { ...(prefs.sites[adapter.id] ?? { enabled: false }), autoFeedback: autoToggle.checked };
+        await savePrefs();
+      });
+      subOptions.push(
+        el("label", { class: "sub-option" }, [
+          autoToggle,
+          `Automatically tell ${adapter.name} 'Not interested' for every filtered video, as you scroll. ${adapter.name} then shows its own Undo notice instead of the recreg cover. Uses your signed-in account; a ${adapter.name} menu may open briefly.`,
+        ]),
+      );
     }
 
     return el("div", { class: "site-row" }, [
