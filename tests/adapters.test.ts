@@ -25,12 +25,20 @@ describe("adapters", () => {
 
   it("rejects malformed feedback configs", () => {
     const base = ADAPTERS.find((a) => a.id === "youtube")!;
-    expect(validateAdapter({ ...base, feedback: { menuButton: [], menuItems: ["x"], itemLabels: ["y"] } })).toContain(
+    const ok = { menuButton: ["b"], menuItems: ["x"], itemLabels: ["y"] };
+    expect(validateAdapter({ ...base, feedback: { ...ok, menuButton: [] } })).toContain(
       "youtube: feedback.menuButton invalid",
     );
-    expect(
-      validateAdapter({ ...base, feedback: { menuButton: ["b"], menuItems: ["x"], itemLabels: ["Not Interested"] } }),
-    ).toContain('youtube: feedback label "Not Interested" must be lowercased and trimmed');
+    expect(validateAdapter({ ...base, feedback: { ...ok, itemLabels: ["Not Interested"] } })).toContain(
+      'youtube: feedback label "Not Interested" must be lowercased and trimmed',
+    );
+  });
+
+  it("never lists the 'Tell us why' control as something to click", () => {
+    const fb = ADAPTERS.find((a) => a.id === "youtube")!.feedback!;
+    for (const label of [...fb.itemLabels]) {
+      expect(label).not.toMatch(/tell us why|why/);
+    }
   });
 
   it("match patterns stay scoped to their own domains", () => {

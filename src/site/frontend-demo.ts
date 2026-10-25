@@ -12,6 +12,7 @@ const addBtn = document.getElementById("demo-add") as HTMLButtonElement;
 const chips = document.getElementById("demo-chips") as HTMLElement;
 const wordsWrap = document.getElementById("demo-words") as HTMLElement;
 const count = document.getElementById("demo-count") as HTMLElement;
+const niOption = document.getElementById("demo-ni") as HTMLInputElement;
 
 // Per-card cover images (real YouTube thumbnails, bundled locally so the
 // CSP's img-src 'self' holds), numbered in SAMPLE_CARDS order.
@@ -21,6 +22,8 @@ function thumbSrc(index: number): string {
 
 let rules: Rule[] = [];
 const revealed = new Set<number>();
+// Cards where the simulated "Not interested on YouTube" was pressed.
+const sent = new Set<number>();
 
 function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -65,6 +68,7 @@ function renderChips(): void {
       if (applied) rules = rules.filter((r) => r.group !== preset.id);
       else for (const t of preset.terms) addTerm(t.term, t.matchType, preset.id);
       revealed.clear();
+      sent.clear();
       render();
     });
     chips.append(btn);
@@ -81,6 +85,7 @@ function renderWords(): void {
     tag.addEventListener("click", () => {
       rules = rules.filter((r) => r.id !== rule.id);
       revealed.clear();
+      sent.clear();
       render();
     });
     wordsWrap.append(tag);
@@ -95,16 +100,45 @@ function renderGrid(): void {
     const covered = matcher.match(`${card.title} ${card.source}`) && !revealed.has(index);
     if (covered) {
       hidden++;
+      if (sent.has(index)) {
+        // What YouTube shows after Not interested: its own notice, with its
+        // own Undo and Tell us why. recreg's cover is gone at this point.
+        const undo = el("button", { class: "show", type: "button" }, ["Undo"]);
+        undo.addEventListener("click", () => {
+          sent.delete(index);
+          revealed.add(index);
+          render();
+        });
+        grid.append(
+          el("div", { class: "card yt-notice" }, [
+            el("div", { class: "title" }, ["Video removed"]),
+            el("div", { class: "actions" }, [undo, el("span", { class: "yt-why" }, ["Tell us why"])]),
+            el("span", { class: "sim-tag" }, ["Simulated YouTube"]),
+          ]),
+        );
+        return;
+      }
+      const actions = el("div", { class: "actions" });
       const show = el("button", { class: "show", type: "button" }, ["Show"]);
       show.addEventListener("click", () => {
         revealed.add(index);
         render();
       });
+      actions.append(show);
+      if (niOption.checked) {
+        const ni = el("button", { class: "ni", type: "button" }, ["Not interested on YouTube"]);
+        ni.addEventListener("click", () => {
+          sent.add(index);
+          render();
+        });
+        actions.append(ni);
+      }
       grid.append(
         el("div", { class: "card covered" }, [
           el("div", { class: "thumb" }),
           el("div", { class: "title" }, ["Hidden by recreg"]),
-          show,
+          actions,
+          ...(niOption.checked ? [el("span", { class: "sim-tag" }, ["Simulated"])] : []),
         ]),
       );
       return;
@@ -133,9 +167,14 @@ function submit(): void {
   addTerm(input.value);
   input.value = "";
   revealed.clear();
+  sent.clear();
   render();
 }
 
+niOption.addEventListener("change", () => {
+  sent.clear();
+  render();
+});
 addBtn.addEventListener("click", submit);
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") submit();

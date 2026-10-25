@@ -21,9 +21,9 @@ export interface SiteSettings {
   enabled: boolean;
   /** Hide whole recommendation sections instead of individual cards. */
   hideSections?: boolean;
-  /** Also send the platform's own "not interested" signal for matched
-   *  cards, so the recommender itself learns. Opt-in; off by default. */
-  autoFeedback?: boolean;
+  /** Show a "Not interested on <platform>" button on covered cards. The
+   *  signal is only sent when the user presses it. Opt-in; off by default. */
+  feedbackButton?: boolean;
 }
 
 export interface Preferences {
@@ -87,7 +87,7 @@ export function validatePreferences(input: unknown): Preferences | null {
       out.sites[key] = {
         enabled: value.enabled === true,
         hideSections: value.hideSections === true,
-        autoFeedback: value.autoFeedback === true,
+        feedbackButton: value.feedbackButton === true,
       };
     }
   }

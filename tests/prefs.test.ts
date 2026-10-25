@@ -59,20 +59,20 @@ describe("validatePreferences", () => {
     });
     expect(out!.rules[0]!.term).toBe("padded");
     expect(out!.rules[0]!.id.length).toBeGreaterThan(0);
-    expect(out!.sites["youtube"]).toEqual({ enabled: true, hideSections: false, autoFeedback: false });
+    expect(out!.sites["youtube"]).toEqual({ enabled: true, hideSections: false, feedbackButton: false });
     expect(Object.keys(out!.sites)).toEqual(["youtube"]);
   });
 
-  it("autoFeedback is opt-in: only an explicit true survives", () => {
+  it("feedbackButton is opt-in: only an explicit true survives", () => {
     const out = validatePreferences({
       schemaVersion: 1,
       sites: {
-        youtube: { enabled: true, autoFeedback: true },
-        reddit: { enabled: true, autoFeedback: "yes" },
+        youtube: { enabled: true, feedbackButton: true },
+        reddit: { enabled: true, feedbackButton: "yes" },
       },
       rules: [],
     });
-    expect(out!.sites["youtube"]!.autoFeedback).toBe(true);
-    expect(out!.sites["reddit"]!.autoFeedback).toBe(false);
+    expect(out!.sites["youtube"]!.feedbackButton).toBe(true);
+    expect(out!.sites["reddit"]!.feedbackButton).toBe(false);
   });
 });
