@@ -49,13 +49,20 @@ function main(site: SiteAdapter): void {
       `[${ATTR_HIDDEN}] { display: none !important; }`,
       `[${ATTR_SECTION}] { display: none !important; }`,
       `[${ATTR_COVERED}] { position: relative !important; }`,
-      `.recreg-cover { position: absolute; inset: 0; z-index: 2147483000; display: flex;`,
+      `.recreg-cover { position: absolute; inset: 0; z-index: 2147483000; display: flex; container-type: inline-size;`,
       `  flex-direction: column; align-items: center; justify-content: center; gap: 10px;`,
       `  background: #fdeef4 radial-gradient(#f0b6c9 1.2px, transparent 1.4px) 0 0 / 9px 9px; color: #3d3236; border-radius: 14px;`,
       `  font: 500 13px/1.4 system-ui, -apple-system, sans-serif; text-align: center; padding: 8px; }`,
-      `.recreg-cover button { cursor: pointer; border: 1px solid #e49cb5; border-radius: 999px;`,
-      `  background: #fff; color: #3d3236; font: 600 12px system-ui, sans-serif; padding: 4px 14px; }`,
-      `.recreg-cover button:hover { background: #f4b3c9; color: #3d3236; }`,
+      `.recreg-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }`,
+      `@container (max-width: 340px) { .recreg-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 230px; } }`,
+      `.recreg-cover button { cursor: pointer; border-radius: 999px; color: #3d3236; font: 600 12px system-ui, sans-serif; padding: 5px 14px; }`,
+      `.recreg-cover button.recreg-outline { background: transparent; border: 1.5px solid #c9788f; }`,
+      `.recreg-cover button.recreg-outline:hover { background: #fff; }`,
+      `.recreg-cover button.recreg-filled { background: #f4b3c9; border: 1.5px solid #e49cb5; }`,
+      `.recreg-cover button.recreg-filled:hover { background: #efa3bd; }`,
+      `.recreg-cover button:disabled { opacity: 0.6; cursor: default; }`,
+      `.recreg-note { font: 400 11px system-ui, sans-serif; color: #7a6a70; }`,
+      `.recreg-note:empty { display: none; }`,
       `.recreg-cover .recreg-why { border: 0; background: transparent; color: #7a6a70;`,
       `  font: 400 11px system-ui, sans-serif; padding: 0; }`,
       `.recreg-cover button.recreg-why:hover { background: transparent; color: #3d3236; text-decoration: underline; }`,
@@ -142,11 +149,17 @@ function main(site: SiteAdapter): void {
     const cover = document.createElement("div");
     cover.className = "recreg-cover";
     const label = document.createElement("div");
-    label.textContent = "Hidden by recreg";
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.textContent = "Show";
-    btn.addEventListener("click", (e) => {
+    const actions = document.createElement("div");
+    actions.className = "recreg-actions";
+    const note = document.createElement("div");
+    note.className = "recreg-note";
+
+    // "Show": reveals the original card. Sends nothing to the platform.
+    const showBtn = document.createElement("button");
+    showBtn.type = "button";
+    showBtn.className = "recreg-outline";
+    showBtn.textContent = "Show";
+    showBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       revealed.add(card);
@@ -155,6 +168,51 @@ function main(site: SiteAdapter): void {
       hiddenCount = Math.max(0, hiddenCount - 1);
       reportStatus();
     });
+
+    // "Not interested on YouTube": only built when the user opted in, and
+    // only ever sent by this explicit click, never automatically.
+    const niBtn = document.createElement("button");
+    niBtn.type = "button";
+    niBtn.className = "recreg-filled";
+    niBtn.textContent = "Not interested on YouTube";
+    niBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (feedbackBusy) return;
+      feedbackBusy = true;
+      niBtn.disabled = true;
+      note.textContent = "";
+      sendFeedback(card)
+        .then((sent) => {
+          if (sent) {
+            // YouTube now shows its own "Video removed" notice (with its
+            // Undo / Tell us why). Remove our cover so it is visible and
+            // usable by the user; recreg never touches that notice.
+            revealed.add(card);
+            card.removeAttribute(ATTR_COVERED);
+            cover.remove();
+          } else {
+            note.textContent = "Couldn't reach YouTube's menu. Nothing was sent.";
+            niBtn.disabled = false;
+          }
+        })
+        .catch(() => {
+          note.textContent = "Couldn't reach YouTube's menu. Nothing was sent.";
+          niBtn.disabled = false;
+        })
+        .finally(() => {
+          feedbackBusy = false;
+        });
+    });
+
+    function showDefault(): void {
+      label.textContent = "Hidden by recreg";
+      note.textContent = "";
+      niBtn.disabled = false;
+      actions.replaceChildren(showBtn, ...(feedbackButtonActive() ? [niBtn] : []));
+      why.hidden = false;
+    }
+
     cover.addEventListener("click", (e) => {
       // Swallow clicks so the underlying card link doesn't open.
       e.preventDefault();
@@ -174,58 +232,33 @@ function main(site: SiteAdapter): void {
       reason.textContent = `Matches your filter: ${matchedTerm}`;
       why.replaceWith(reason);
     });
-    cover.append(label, btn, why);
+    showDefault();
+    cover.append(label, actions, note, why);
     card.appendChild(cover);
   }
 
   // ---------- platform feedback ("Not interested") ----------
   //
-  // Opt-in per site. For each newly hidden card, drive the platform's own
-  // dismissal flow (open the card's action menu, click its "not interested"
-  // item) so the recommender learns, instead of recreg only hiding locally.
-  // Best-effort and fail-safe: menu items are matched by EXACT label, one
-  // card is processed at a time with a fixed pause between cards, and an
-  // unmatched menu is closed and never retried.
+  // Opt-in per site, and only ever triggered by the user pressing the
+  // cover's "Not interested on YouTube" button. recreg never sends it on its
+  // own. The click drives the platform's own dismissal flow (open the card's
+  // action menu, click its "not interested" item). Best-effort and fail-safe:
+  // menu items are matched by EXACT label, and an unmatched menu is closed.
+  //
+  // After the click, the cover is removed so the platform's own notice
+  // ("Video removed", Undo, Tell us why) is shown to the user. recreg never
+  // clicks, fills in or submits any of it, including "Tell us why".
 
-  const FEEDBACK_PAUSE_MS = 5000;
   const FEEDBACK_MENU_TIMEOUT_MS = 1500;
-  const feedbackDone = new WeakSet<Element>();
-  const feedbackQueue: HTMLElement[] = [];
   let feedbackBusy = false;
 
-  function autoFeedbackActive(): boolean {
-    return !!site.feedback && prefs.sites[site.id]?.autoFeedback === true && !prefs.paused;
+  function feedbackButtonActive(): boolean {
+    return !!site.feedback && prefs.sites[site.id]?.feedbackButton === true;
   }
 
-  function queueFeedback(card: HTMLElement): void {
-    if (!autoFeedbackActive() || feedbackDone.has(card)) return;
-    feedbackDone.add(card);
-    feedbackQueue.push(card);
-    void drainFeedbackQueue();
-  }
-
-  async function drainFeedbackQueue(): Promise<void> {
-    if (feedbackBusy) return;
-    feedbackBusy = true;
-    try {
-      while (feedbackQueue.length > 0) {
-        const card = feedbackQueue.shift();
-        if (!card || !card.isConnected || !autoFeedbackActive()) continue;
-        try {
-          await sendFeedback(card);
-        } catch {
-          // Never let a feedback attempt break the page.
-        }
-        await sleep(FEEDBACK_PAUSE_MS);
-      }
-    } finally {
-      feedbackBusy = false;
-    }
-  }
-
-  async function sendFeedback(card: HTMLElement): Promise<void> {
+  async function sendFeedback(card: HTMLElement): Promise<boolean> {
     const fb = site.feedback;
-    if (!fb) return;
+    if (!fb || !feedbackButtonActive()) return false;
     let button: HTMLElement | null = null;
     for (const sel of fb.menuButton) {
       try {
@@ -235,16 +268,17 @@ function main(site: SiteAdapter): void {
       }
       if (button) break;
     }
-    if (!button) return;
+    if (!button) return false;
     button.click();
     const item = await waitForMenuItem(fb.menuItems, fb.itemLabels);
     if (item) {
       item.click();
-    } else {
-      // Unknown menu (locale or DOM drift): close it and leave the card
-      // covered locally. Iron-dropdowns close on Escape.
-      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+      return true;
     }
+    // Unknown menu (locale or DOM drift): close it and leave the card
+    // covered locally. Iron-dropdowns close on Escape.
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    return false;
   }
 
   async function waitForMenuItem(selectors: string[], labels: string[]): Promise<HTMLElement | null> {
@@ -290,10 +324,7 @@ function main(site: SiteAdapter): void {
     }
     card.setAttribute(ATTR_CHECKED, "");
     const hit = matcher.match(text);
-    if (hit) {
-      hideCard(card, hit.term);
-      queueFeedback(card);
-    }
+    if (hit) hideCard(card, hit.term);
   }
 
   // ---------- scanning ----------

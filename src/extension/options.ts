@@ -71,16 +71,16 @@ function sitesSection(): HTMLElement {
     ];
 
     if (adapter.feedback) {
-      const feedbackToggle = el("input", { type: "checkbox", "aria-label": `Tell ${adapter.name} "not interested" for filtered items` }) as HTMLInputElement;
-      feedbackToggle.checked = settings.autoFeedback === true;
+      const feedbackToggle = el("input", { type: "checkbox", "aria-label": `Show a "Not interested on ${adapter.name}" button on hidden items` }) as HTMLInputElement;
+      feedbackToggle.checked = settings.feedbackButton === true;
       feedbackToggle.addEventListener("change", async () => {
-        prefs.sites[adapter.id] = { ...(prefs.sites[adapter.id] ?? { enabled: false }), autoFeedback: feedbackToggle.checked };
+        prefs.sites[adapter.id] = { ...(prefs.sites[adapter.id] ?? { enabled: false }), feedbackButton: feedbackToggle.checked };
         await savePrefs();
       });
       subOptions.push(
         el("label", { class: "sub-option" }, [
           feedbackToggle,
-          `also mark filtered items "Not interested" on ${adapter.name} — trains its recommendations using your signed-in account; menus may flick open briefly`,
+          `Show a 'Not interested on ${adapter.name}' button on hidden items. Tapping it tells ${adapter.name} using your signed-in account. A ${adapter.name} menu may open briefly.`,
         ]),
       );
     }
